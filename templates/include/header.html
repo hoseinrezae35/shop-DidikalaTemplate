@@ -1,0 +1,940 @@
+{% load static %}
+
+<header>
+    <!-- top header -->
+    <div class="flex justify-between bg-white shadow-lg px-4 md:px-8 lg:px-14 py-5 relative">
+        <div class="flex justify-between items-center gap-x-5 w-full md:w-auto">
+            <!-- btn menu mobile -->
+            <svg class="md:hidden menu-mobile" xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#000000"
+                 viewbox="0 0 256 256">
+                <path d="M224,128a8,8,0,0,1-8,8H40a8,8,0,0,1,0-16H216A8,8,0,0,1,224,128ZM40,72H216a8,8,0,0,0,0-16H40a8,8,0,0,0,0,16ZM216,184H40a8,8,0,0,0,0,16H216a8,8,0,0,0,0-16Z"></path>
+            </svg>
+            <!-- bg blur mobile -->
+            <div id="overlay" class="fixed z-10 inset-0 bg-black/35 hidden transition-opacity duration-300"></div>
+            <!-- Sidebar mobile -->
+            <div id="mobile-menu"
+                 class="z-20 fixed top-0 right-0 w-10/12 h-full bg-white shadow-lg transform translate-x-full transition-transform duration-300 ease-in-out">
+                <div class="p-5 flex flex-col gap-y-3 justify-center items-center">
+                    <!-- logo -->
+                    <a href="/">
+                        <img src="{% static '\image\logo.png' %}' %}" class="max-w-24 md:max-w-32 h-fit" alt="">
+                    </a>
+                    <!-- seacrh -->
+                    <div class="relative block">
+                        <input class="rounded-full text-zinc-600 bg-[#f0f0f0] px-5 py-2.5 w-64 text-sm placeholder:text-zinc-400 placeholder:text-sm focus:outline-0"
+                               type="text" placeholder="جستجو...">
+                        <a href="#">
+                            <img class="top-3 absolute left-3 size-4"
+                                 src="{% static 'image\icons\lineicons_search-1.svg' %}"
+                                 alt="">
+                        </a>
+                    </div>
+                </div>
+                <ul class="p-5 space-y-1 text-sm text-zinc-800 h-screen overflow-y-auto pb-48">
+                    <li>
+                        <a href="#" class="py-3 px-4 hover:bg-gray-100 rounded-lg flex gap-x-2">
+                            <svg width="18" height="18" viewbox="0 0 24 24" fill="none"
+                                 xmlns="http://www.w3.org/2000/svg">
+                                <path class="fill-gray-700 group-hover/cat:fill-primary-500 transition"
+                                      d="M11.25 18C11.25 18.1989 11.329 18.3897 11.4697 18.5303C11.6103 18.671 11.8011 18.75 12 18.75C12.1989 18.75 12.3897 18.671 12.5303 18.5303C12.671 18.3897 12.75 18.1989 12.75 18V15C12.75 14.8011 12.671 14.6103 12.5303 14.4697C12.3897 14.329 12.1989 14.25 12 14.25C11.8011 14.25 11.6103 14.329 11.4697 14.4697C11.329 14.6103 11.25 14.8011 11.25 15V18Z"
+                                      fill=""></path>
+                                <path class="fill-gray-700 group-hover/cat:fill-primary-500 transition"
+                                      fill-rule="evenodd" clip-rule="evenodd"
+                                      d="M12 1.25C11.292 1.25 10.649 1.453 9.95 1.792C9.276 2.12 8.496 2.604 7.523 3.208L5.456 4.491C4.536 5.063 3.797 5.521 3.229 5.956C2.64 6.406 2.188 6.866 1.861 7.463C1.535 8.058 1.389 8.692 1.318 9.441C1.25 10.166 1.25 11.054 1.25 12.167V13.78C1.25 15.684 1.25 17.187 1.403 18.362C1.559 19.567 1.889 20.54 2.633 21.309C3.38 22.082 4.33 22.428 5.508 22.591C6.648 22.75 8.106 22.75 9.942 22.75H14.058C15.894 22.75 17.352 22.75 18.492 22.591C19.669 22.428 20.62 22.082 21.368 21.309C22.111 20.54 22.441 19.567 22.598 18.362C22.75 17.187 22.75 15.684 22.75 13.78V12.167C22.75 11.054 22.75 10.167 22.682 9.441C22.612 8.691 22.465 8.058 22.139 7.463C21.812 6.866 21.359 6.407 20.771 5.956C20.203 5.52 19.465 5.063 18.544 4.491L16.477 3.208C15.504 2.604 14.724 2.12 14.049 1.792C13.352 1.452 12.709 1.25 12 1.25ZM8.28 4.504C9.295 3.874 10.01 3.432 10.607 3.141C11.188 2.858 11.6 2.75 12 2.75C12.4 2.75 12.812 2.858 13.393 3.141C13.991 3.431 14.705 3.874 15.72 4.504L17.72 5.745C18.681 6.342 19.356 6.761 19.86 7.147C20.349 7.522 20.63 7.831 20.823 8.183C21.016 8.536 21.129 8.949 21.188 9.581C21.249 10.229 21.25 11.046 21.25 12.204V13.725C21.25 15.695 21.248 17.101 21.11 18.168C20.974 19.216 20.717 19.824 20.29 20.267C19.865 20.706 19.287 20.967 18.286 21.106C17.26 21.248 15.907 21.25 14 21.25H10C8.092 21.25 6.74 21.248 5.714 21.106C4.713 20.966 4.135 20.706 3.711 20.266C3.283 19.824 3.026 19.216 2.891 18.168C2.751 17.101 2.75 15.696 2.75 13.725V12.204C2.75 11.046 2.75 10.229 2.812 9.581C2.871 8.949 2.984 8.536 3.177 8.183C3.37 7.831 3.651 7.522 4.141 7.147C4.644 6.761 5.319 6.342 6.28 5.745L8.28 4.504Z"
+                                      fill=""></path>
+                            </svg>
+                            صفحه اصلی
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="py-3 px-4 hover:bg-gray-100 rounded-lg flex gap-x-2">
+                            <svg width="18" height="18" viewbox="0 0 24 24" fill="none"
+                                 xmlns="http://www.w3.org/2000/svg">
+                                <path d="M9.144 2.5C6.487 2.56 4.935 2.815 3.874 3.875C2.813 4.935 2.562 6.487 2.5 9.145M14.856 2.5C17.513 2.56 19.065 2.815 20.126 3.875C21.187 4.935 21.439 6.487 21.5 9.145M14.856 21.5C17.513 21.44 19.065 21.185 20.126 20.125C21.187 19.065 21.439 17.513 21.5 14.855M9.144 21.5C6.487 21.44 4.935 21.185 3.874 20.125C2.813 19.065 2.561 17.513 2.5 14.855M8 8H8.009M16 16H16.009M8 16L16 8"
+                                      stroke="#3f3f46" stroke-width="1.5" stroke-linecap="round"
+                                      stroke-linejoin="round"></path>
+                            </svg>
+                            شگفت انگیزها
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="py-3 px-4 hover:bg-gray-100 rounded-lg flex gap-x-2">
+                            <svg width="18" height="18" viewbox="0 0 24 24" fill="none"
+                                 xmlns="http://www.w3.org/2000/svg">
+                                <path d="M17 15.245V22.117C17 22.2055 16.9766 22.2924 16.932 22.3688C16.8875 22.4452 16.8235 22.5085 16.7465 22.5521C16.6696 22.5957 16.5824 22.6181 16.4939 22.6171C16.4055 22.616 16.3189 22.5915 16.243 22.546L12 20L7.757 22.546C7.68104 22.5915 7.59436 22.616 7.50581 22.6171C7.41727 22.6181 7.33004 22.5956 7.25304 22.5519C7.17605 22.5081 7.11205 22.4447 7.06759 22.3681C7.02313 22.2916 6.9998 22.2046 7 22.116V15.246C5.70615 14.2101 4.76599 12.7979 4.30946 11.2045C3.85293 9.6112 3.90256 7.91539 4.45149 6.35147C5.00043 4.78756 6.02156 3.43275 7.37378 2.47428C8.726 1.51581 10.3425 1.001 12 1.001C13.6575 1.001 15.274 1.51581 16.6262 2.47428C17.9784 3.43275 18.9996 4.78756 19.5485 6.35147C20.0974 7.91539 20.1471 9.6112 19.6905 11.2045C19.234 12.7979 18.2939 14.2101 17 15.246M9 16.42V19.469L12 17.669L15 19.469V16.419C14.0466 16.8036 13.028 17.0009 12 17C10.972 17.0009 9.95338 16.8046 9 16.42ZM12 15C13.5913 15 15.1174 14.3679 16.2426 13.2426C17.3679 12.1174 18 10.5913 18 9C18 7.4087 17.3679 5.88258 16.2426 4.75736C15.1174 3.63214 13.5913 3 12 3C10.4087 3 8.88258 3.63214 7.75736 4.75736C6.63214 5.88258 6 7.4087 6 9C6 10.5913 6.63214 12.1174 7.75736 13.2426C8.88258 14.3679 10.4087 15 12 15Z"
+                                      fill="#364153"></path>
+                            </svg>
+                            پرفروش ترین‌ها
+                        </a>
+                    </li>
+                    <!-- categorys -->
+                    <div class="border-y border-zinc-300 py-2">
+                        <!-- 1 -->
+                        <li>
+                            <button class="menu-toggle flex justify-between w-full py-3 px-4 hover:bg-gray-100 rounded-lg">
+                                <div class="flex items-center gap-x-1">
+                                    <svg width="20" height="20" viewbox="0 0 24 24" fill="none"
+                                         xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M15.25 2.75H8.75C7.09315 2.75 5.75 4.09315 5.75 5.75V18.25C5.75 19.9069 7.09315 21.25 8.75 21.25H15.25C16.9069 21.25 18.25 19.9069 18.25 18.25V5.75C18.25 4.09315 16.9069 2.75 15.25 2.75Z"
+                                              stroke="#71717b" stroke-width="1.5" stroke-linecap="round"
+                                              stroke-linejoin="round"></path>
+                                        <path d="M11 17.75H13" stroke="#71717b" stroke-width="1.5"
+                                              stroke-linecap="round" stroke-linejoin="round"></path>
+                                    </svg>
+                                    <span>موبایل</span>
+                                </div>
+                                <img class="w-4 transition-transform opacity-80"
+                                     src="{% static 'image\icons\arrowDown.svg' %}"
+                                     alt="">
+                            </button>
+                            <ul class="submenu hidden pr-6 space-y-2">
+                                <li>
+                                    <button class="menu-toggle flex justify-between w-full py-3 px-4 hover:bg-gray-100 rounded-lg">
+                                        <a href="">طراحی گرافیک</a>
+                                        <img class="w-4 transition-transform opacity-80"
+                                             src="{% static 'image\icons\arrowDown.svg' %}" alt="">
+                                    </button>
+                                    <ul class="submenu hidden pr-6 space-y-2">
+                                        <li><a href="#" class="block py-2 px-4 hover:bg-gray-100 rounded-md">طراحی
+                                            لوگو</a></li>
+                                        <li><a href="#" class="block py-2 px-4 hover:bg-gray-100 rounded-md">طراحی
+                                            بنر</a></li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <button class="menu-toggle flex justify-between w-full py-3 px-4 hover:bg-gray-100 rounded-lg">
+                                        <a href="">طراحی گرافیک</a>
+                                        <img class="w-4 transition-transform opacity-80"
+                                             src="{% static 'image\icons\arrowDown.svg' %}" alt="">
+                                    </button>
+                                    <ul class="submenu hidden pr-6 space-y-2">
+                                        <li><a href="#" class="block py-2 px-4 hover:bg-gray-100 rounded-md">طراحی
+                                            لوگو</a></li>
+                                        <li><a href="#" class="block py-2 px-4 hover:bg-gray-100 rounded-md">طراحی
+                                            بنر</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <!-- 2 -->
+                        <li>
+                            <button class="menu-toggle flex justify-between w-full py-3 px-4 hover:bg-gray-100 rounded-lg">
+                                <div class="flex items-center gap-x-1">
+                                    <svg width="20" height="20" viewbox="0 0 24 24" fill="none"
+                                         xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M15.25 2.75H8.75C7.09315 2.75 5.75 4.09315 5.75 5.75V18.25C5.75 19.9069 7.09315 21.25 8.75 21.25H15.25C16.9069 21.25 18.25 19.9069 18.25 18.25V5.75C18.25 4.09315 16.9069 2.75 15.25 2.75Z"
+                                              stroke="#71717b" stroke-width="1.5" stroke-linecap="round"
+                                              stroke-linejoin="round"></path>
+                                        <path d="M11 17.75H13" stroke="#71717b" stroke-width="1.5"
+                                              stroke-linecap="round" stroke-linejoin="round"></path>
+                                    </svg>
+                                    <span>موبایل</span>
+                                </div>
+                                <img class="w-4 transition-transform opacity-80"
+                                     src="{% static 'image\icons\arrowDown.svg' %}"
+                                     alt="">
+                            </button>
+                            <ul class="submenu hidden pr-6 space-y-2">
+                                <li>
+                                    <button class="menu-toggle flex justify-between w-full py-3 px-4 hover:bg-gray-100 rounded-lg">
+                                        <a href="">طراحی گرافیک</a>
+                                        <img class="w-4 transition-transform opacity-80"
+                                             src="{% static 'image\icons\arrowDown.svg' %}" alt="">
+                                    </button>
+                                    <ul class="submenu hidden pr-6 space-y-2">
+                                        <li><a href="#" class="block py-2 px-4 hover:bg-gray-100 rounded-md">طراحی
+                                            لوگو</a></li>
+                                        <li><a href="#" class="block py-2 px-4 hover:bg-gray-100 rounded-md">طراحی
+                                            بنر</a></li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <button class="menu-toggle flex justify-between w-full py-3 px-4 hover:bg-gray-100 rounded-lg">
+                                        <a href="">طراحی گرافیک</a>
+                                        <img class="w-4 transition-transform opacity-80"
+                                             src="{% static 'image\icons\arrowDown.svg' %}" alt="">
+                                    </button>
+                                    <ul class="submenu hidden pr-6 space-y-2">
+                                        <li><a href="#" class="block py-2 px-4 hover:bg-gray-100 rounded-md">طراحی
+                                            لوگو</a></li>
+                                        <li><a href="#" class="block py-2 px-4 hover:bg-gray-100 rounded-md">طراحی
+                                            بنر</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <!-- 3 -->
+                        <li>
+                            <button class="menu-toggle flex justify-between w-full py-3 px-4 hover:bg-gray-100 rounded-lg">
+                                <div class="flex items-center gap-x-1">
+                                    <svg width="20" height="20" viewbox="0 0 24 24" fill="none"
+                                         xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M15.25 2.75H8.75C7.09315 2.75 5.75 4.09315 5.75 5.75V18.25C5.75 19.9069 7.09315 21.25 8.75 21.25H15.25C16.9069 21.25 18.25 19.9069 18.25 18.25V5.75C18.25 4.09315 16.9069 2.75 15.25 2.75Z"
+                                              stroke="#71717b" stroke-width="1.5" stroke-linecap="round"
+                                              stroke-linejoin="round"></path>
+                                        <path d="M11 17.75H13" stroke="#71717b" stroke-width="1.5"
+                                              stroke-linecap="round" stroke-linejoin="round"></path>
+                                    </svg>
+                                    <span>موبایل</span>
+                                </div>
+                                <img class="w-4 transition-transform opacity-80"
+                                     src="{% static 'image\icons\arrowDown.svg' %}"
+                                     alt="">
+                            </button>
+                            <ul class="submenu hidden pr-6 space-y-2">
+                                <li>
+                                    <button class="menu-toggle flex justify-between w-full py-3 px-4 hover:bg-gray-100 rounded-lg">
+                                        <a href="">طراحی گرافیک</a>
+                                        <img class="w-4 transition-transform opacity-80"
+                                             src="{% static 'image\icons\arrowDown.svg' %}" alt="">
+                                    </button>
+                                    <ul class="submenu hidden pr-6 space-y-2">
+                                        <li><a href="#" class="block py-2 px-4 hover:bg-gray-100 rounded-md">طراحی
+                                            لوگو</a></li>
+                                        <li><a href="#" class="block py-2 px-4 hover:bg-gray-100 rounded-md">طراحی
+                                            بنر</a></li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <button class="menu-toggle flex justify-between w-full py-3 px-4 hover:bg-gray-100 rounded-lg">
+                                        <a href="">طراحی گرافیک</a>
+                                        <img class="w-4 transition-transform opacity-80"
+                                             src="{% static 'image\icons\arrowDown.svg' %}" alt="">
+                                    </button>
+                                    <ul class="submenu hidden pr-6 space-y-2">
+                                        <li><a href="#" class="block py-2 px-4 hover:bg-gray-100 rounded-md">طراحی
+                                            لوگو</a></li>
+                                        <li><a href="#" class="block py-2 px-4 hover:bg-gray-100 rounded-md">طراحی
+                                            بنر</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <!-- 4 -->
+                        <li>
+                            <button class="menu-toggle flex justify-between w-full py-3 px-4 hover:bg-gray-100 rounded-lg">
+                                <div class="flex items-center gap-x-1">
+                                    <svg width="20" height="20" viewbox="0 0 24 24" fill="none"
+                                         xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M15.25 2.75H8.75C7.09315 2.75 5.75 4.09315 5.75 5.75V18.25C5.75 19.9069 7.09315 21.25 8.75 21.25H15.25C16.9069 21.25 18.25 19.9069 18.25 18.25V5.75C18.25 4.09315 16.9069 2.75 15.25 2.75Z"
+                                              stroke="#71717b" stroke-width="1.5" stroke-linecap="round"
+                                              stroke-linejoin="round"></path>
+                                        <path d="M11 17.75H13" stroke="#71717b" stroke-width="1.5"
+                                              stroke-linecap="round" stroke-linejoin="round"></path>
+                                    </svg>
+                                    <span>موبایل</span>
+                                </div>
+                                <img class="w-4 transition-transform opacity-80"
+                                     src="{% static 'image\icons\arrowDown.svg' %}"
+                                     alt="">
+                            </button>
+                            <ul class="submenu hidden pr-6 space-y-2">
+                                <li>
+                                    <button class="menu-toggle flex justify-between w-full py-3 px-4 hover:bg-gray-100 rounded-lg">
+                                        <a href="">طراحی گرافیک</a>
+                                        <img class="w-4 transition-transform opacity-80"
+                                             src="{% static 'image\icons\arrowDown.svg' %}" alt="">
+                                    </button>
+                                    <ul class="submenu hidden pr-6 space-y-2">
+                                        <li><a href="#" class="block py-2 px-4 hover:bg-gray-100 rounded-md">طراحی
+                                            لوگو</a></li>
+                                        <li><a href="#" class="block py-2 px-4 hover:bg-gray-100 rounded-md">طراحی
+                                            بنر</a></li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <button class="menu-toggle flex justify-between w-full py-3 px-4 hover:bg-gray-100 rounded-lg">
+                                        <a href="">طراحی گرافیک</a>
+                                        <img class="w-4 transition-transform opacity-80"
+                                             src="{% static 'image\icons\arrowDown.svg' %}" alt="">
+                                    </button>
+                                    <ul class="submenu hidden pr-6 space-y-2">
+                                        <li><a href="#" class="block py-2 px-4 hover:bg-gray-100 rounded-md">طراحی
+                                            لوگو</a></li>
+                                        <li><a href="#" class="block py-2 px-4 hover:bg-gray-100 rounded-md">طراحی
+                                            بنر</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <!-- 5 -->
+                        <li>
+                            <button class="menu-toggle flex justify-between w-full py-3 px-4 hover:bg-gray-100 rounded-lg">
+                                <div class="flex items-center gap-x-1">
+                                    <svg width="20" height="20" viewbox="0 0 24 24" fill="none"
+                                         xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M15.25 2.75H8.75C7.09315 2.75 5.75 4.09315 5.75 5.75V18.25C5.75 19.9069 7.09315 21.25 8.75 21.25H15.25C16.9069 21.25 18.25 19.9069 18.25 18.25V5.75C18.25 4.09315 16.9069 2.75 15.25 2.75Z"
+                                              stroke="#71717b" stroke-width="1.5" stroke-linecap="round"
+                                              stroke-linejoin="round"></path>
+                                        <path d="M11 17.75H13" stroke="#71717b" stroke-width="1.5"
+                                              stroke-linecap="round" stroke-linejoin="round"></path>
+                                    </svg>
+                                    <span>موبایل</span>
+                                </div>
+                                <img class="w-4 transition-transform opacity-80"
+                                     src="{% static 'image\icons\arrowDown.svg' %}"
+                                     alt="">
+                            </button>
+                            <ul class="submenu hidden pr-6 space-y-2">
+                                <li>
+                                    <button class="menu-toggle flex justify-between w-full py-3 px-4 hover:bg-gray-100 rounded-lg">
+                                        <a href="">طراحی گرافیک</a>
+                                        <img class="w-4 transition-transform opacity-80"
+                                             src="{% static 'image\icons\arrowDown.svg' %}" alt="">
+                                    </button>
+                                    <ul class="submenu hidden pr-6 space-y-2">
+                                        <li><a href="#" class="block py-2 px-4 hover:bg-gray-100 rounded-md">طراحی
+                                            لوگو</a></li>
+                                        <li><a href="#" class="block py-2 px-4 hover:bg-gray-100 rounded-md">طراحی
+                                            بنر</a></li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <button class="menu-toggle flex justify-between w-full py-3 px-4 hover:bg-gray-100 rounded-lg">
+                                        <a href="">طراحی گرافیک</a>
+                                        <img class="w-4 transition-transform opacity-80"
+                                             src="{% static 'image\icons\arrowDown.svg' %}" alt="">
+                                    </button>
+                                    <ul class="submenu hidden pr-6 space-y-2">
+                                        <li><a href="#" class="block py-2 px-4 hover:bg-gray-100 rounded-md">طراحی
+                                            لوگو</a></li>
+                                        <li><a href="#" class="block py-2 px-4 hover:bg-gray-100 rounded-md">طراحی
+                                            بنر</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                    </div>
+                    <li>
+                        <a href="#" class="py-3 px-4 hover:bg-gray-100 rounded-lg block">
+                            وبلاگ
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="py-3 px-4 hover:bg-gray-100 rounded-lg block">
+                            درباره ما
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="py-3 px-4 hover:bg-gray-100 rounded-lg block">
+                            تماس با ما
+                        </a>
+                    </li>
+                </ul>
+                <div class="bg-zinc-100 w-full h-16 px-2 py-4 flex justify-between items-center fixed bottom-0">
+                    <div class="text-zinc-600 text-xs lg:text-sm">
+                        همین حالا با پشتیبانی تماس بگیر
+                    </div>
+                    <a href="tel:05144556677" class="text-primary-500 flex text-xs lg:text-base gap-x-1 items-start">
+                        051-44556677
+                        <img class="w-3 lg:w-5" src="{% static 'image\icons\headphones.svg' %}" alt="">
+                    </a>
+                </div>
+            </div>
+            <!-- logo -->
+            <a href="/">
+                <img src="{% static 'image\logo.png' %}" class="max-w-24 md:max-w-32 h-fit" alt="">
+            </a>
+            <!-- empty -->
+            <div class="md:hidden size-8">
+            </div>
+            <!-- seacrh -->
+            <div class="relative hidden md:block">
+                <input class="rounded-full text-zinc-600   bg-[#f0f0f0] px-5 py-2.5 w-80 placeholder:text-zinc-400 placeholder:text-sm focus:outline-0"
+                       type="text" placeholder="جستجو...">
+                <a href="#">
+                    <img class="top-2.5 absolute left-3 size-5" src="{% static 'image\icons\lineicons_search-1.svg' %}"
+                         alt="">
+                </a>
+            </div>
+        </div>
+        <div class="hidden md:flex items-center gap-x-2 lg:gap-x-3">
+            <div class="text-zinc-600 text-xs lg:text-sm">
+                همین حالا با پشتیبانی تماس بگیر
+            </div>
+            <div class="text-zinc-300">
+                |
+            </div>
+            <a href="tel:05144556677" class="text-primary-500 flex text-xs lg:text-base gap-x-1 items-start">
+                051-44556677
+                <img class="w-3 lg:w-5" src="{% static 'image\icons\headphones.svg' %}" alt="">
+            </a>
+        </div>
+        <svg class="hidden md:block absolute top-full md:right-4 lg:right-10" width="158" height="19"
+             viewbox="0 0 158 19" fill="white" xmlns="http://www.w3.org/2000/svg">
+            <g clip-path="url(#clip0_4623_10410)">
+                <path fill-rule="evenodd" clip-rule="evenodd"
+                      d="M101.486 -121.419C121.078 -114.984 140.312 -105 160.935 -105H506.5C535.495 -105 559 -81.4949 559 -52.5V-52.5C559 -23.5051 535.495 0 506.5 0H158.936C138.871 0 120.093 9.46189 100.984 15.5822C94.0537 17.8017 86.6668 19 79 19C71.3332 19 63.9463 17.8017 57.0164 15.5822C37.9074 9.46189 19.1287 0 -0.936457 0H-1468.5C-1497.49 0 -1521 -23.5051 -1521 -52.5V-52.5C-1521 -81.4949 -1497.49 -105 -1468.5 -105H-2.93493C17.6877 -105 36.9216 -114.984 56.5145 -121.419C63.5893 -123.743 71.1478 -125 79 -125C86.8522 -125 94.4107 -123.743 101.486 -121.419Z"
+                      fill="white"></path>
+            </g>
+            <defs>
+                <clippath id="clip0_4623_10410">
+                    <rect width="158" height="19" fill="white"></rect>
+                </clippath>
+            </defs>
+        </svg>
+    </div>
+    <!-- bottom header -->
+    <div class="md:bg-zinc-50 py-6 px-6 lg:px-14 justify-between flex">
+        <!-- menu -->
+        <ul class="hidden md:flex gap-x-5 xl:gap-x-8">
+            <div class="relative inline-block group">
+                <a href="#" class="pt-3 flex gap-x-2 items-center group relative">
+                    <img class="mb-2 size-4" src="{% static 'image\icons\category.svg' %}" alt="">
+                    <li class="relative text-zinc-600 text-sm group-hover:text-primary-500 transition pb-2
+              after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px]
+              after:bg-primary-500 after:scale-x-0 after:origin-right after:transition-transform after:duration-300
+              group-hover:after:scale-x-100">
+                        دسته بندی ها
+                    </li>
+                    <svg class="group-hover:rotate-180 transition-all duration-300 fill-zinc-600 mb-2 group-hover:fill-primary-500"
+                         xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="#000000" viewbox="0 0 256 256">
+                        <path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z"></path>
+                    </svg>
+                </a>
+                <div id="dropdown-menu"
+                     class="absolute z-10 right-0 mt-2 md:w-2xl lg:w-4xl xl:w-7xl h-fit bg-white p-5 shadow-lg rounded-3xl flex opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
+                    <ul class="w-1/4 rounded-2xl bg-white drop-shadow-custom flex flex-col gap-y-3 p-3">
+                        <li class="category-item group/cat flex items-center gap-x-1 text-sm rounded-lg px-4 py-3 text-gray-600 hover:text-primary-500 cursor-pointer active-category"
+                            data-category="cat1">
+                            <svg width="20" height="20" viewbox="0 0 24 24" fill="none"
+                                 xmlns="http://www.w3.org/2000/svg">
+                                <path class="stroke-gray-600 group-hover/cat:stroke-primary-500 transition"
+                                      d="M15.25 2.75H8.75C7.09315 2.75 5.75 4.09315 5.75 5.75V18.25C5.75 19.9069 7.09315 21.25 8.75 21.25H15.25C16.9069 21.25 18.25 19.9069 18.25 18.25V5.75C18.25 4.09315 16.9069 2.75 15.25 2.75Z"
+                                      stroke="" stroke-width="1.5" stroke-linecap="round"
+                                      stroke-linejoin="round"></path>
+                                <path class="stroke-gray-600 group-hover/cat:stroke-primary-500 transition"
+                                      d="M11 17.75H13" stroke="" stroke-width="1.5" stroke-linecap="round"
+                                      stroke-linejoin="round"></path>
+                            </svg>
+                            موبایل
+                        </li>
+                        <li class="category-item group/cat flex items-center gap-x-1 text-sm rounded-lg px-4 py-3 text-gray-600 hover:text-primary-500 cursor-pointer"
+                            data-category="cat2">
+                            <svg width="20" height="20" viewbox="0 0 24 24" fill="none"
+                                 xmlns="http://www.w3.org/2000/svg">
+                                <path class="fill-gray-600 group-hover/cat:fill-primary-500 transition" strke="0.5"
+                                      fill-rule="evenodd" clip-rule="evenodd"
+                                      d="M8.945 2.25H15.055C16.422 2.25 17.525 2.25 18.392 2.367C19.292 2.487 20.05 2.747 20.652 3.348C21.254 3.95 21.512 4.708 21.634 5.608C21.75 6.475 21.75 7.578 21.75 8.945V14.052C21.75 14.951 21.75 15.7 21.67 16.294C21.586 16.922 21.4 17.489 20.944 17.944C20.489 18.4 19.922 18.586 19.294 18.67C18.7 18.75 17.951 18.75 17.052 18.75H6.948C6.05 18.75 5.3 18.75 4.706 18.67C4.078 18.586 3.511 18.4 3.056 17.944C2.6 17.489 2.414 16.922 2.33 16.294C2.25 15.7 2.25 14.95 2.25 14.052V8.945C2.25 7.578 2.25 6.475 2.367 5.608C2.487 4.708 2.747 3.95 3.348 3.348C3.95 2.746 4.708 2.488 5.608 2.367C6.475 2.25 7.578 2.25 8.945 2.25ZM5.808 3.853C5.074 3.952 4.686 4.133 4.409 4.409C4.132 4.686 3.952 5.074 3.853 5.809C3.752 6.562 3.75 7.564 3.75 9V14C3.75 14.964 3.752 15.612 3.817 16.095C3.879 16.556 3.986 16.754 4.117 16.884C4.248 17.014 4.444 17.121 4.905 17.184C5.388 17.248 6.036 17.25 7 17.25H17C17.964 17.25 18.612 17.248 19.095 17.183C19.556 17.121 19.754 17.014 19.884 16.883C20.014 16.752 20.121 16.556 20.184 16.095C20.248 15.612 20.25 14.964 20.25 14V9C20.25 7.565 20.248 6.563 20.147 5.808C20.048 5.074 19.867 4.686 19.591 4.409C19.314 4.132 18.926 3.952 18.191 3.853C17.436 3.752 16.435 3.75 15 3.75H9C7.565 3.75 6.563 3.752 5.808 3.853ZM8.25 15C8.25 14.8011 8.32902 14.6103 8.46967 14.4697C8.61032 14.329 8.80109 14.25 9 14.25H15C15.1989 14.25 15.3897 14.329 15.5303 14.4697C15.671 14.6103 15.75 14.8011 15.75 15C15.75 15.1989 15.671 15.3897 15.5303 15.5303C15.3897 15.671 15.1989 15.75 15 15.75H9C8.80109 15.75 8.61032 15.671 8.46967 15.5303C8.32902 15.3897 8.25 15.1989 8.25 15ZM1.25 21C1.25 20.8011 1.32902 20.6103 1.46967 20.4697C1.61032 20.329 1.80109 20.25 2 20.25H22C22.1989 20.25 22.3897 20.329 22.5303 20.4697C22.671 20.6103 22.75 20.8011 22.75 21C22.75 21.1989 22.671 21.3897 22.5303 21.5303C22.3897 21.671 22.1989 21.75 22 21.75H2C1.80109 21.75 1.61032 21.671 1.46967 21.5303C1.32902 21.3897 1.25 21.1989 1.25 21Z"
+                                      fill=""></path>
+                            </svg>
+                            کالای دیجیتال
+                        </li>
+                        <li class="category-item group/cat flex items-center gap-x-1 text-sm rounded-lg px-4 py-3 text-gray-700 hover:text-primary-500 cursor-pointer"
+                            data-category="cat3">
+                            <svg width="20" height="20" viewbox="0 0 24 24" fill="none"
+                                 xmlns="http://www.w3.org/2000/svg">
+                                <path class="fill-gray-600 group-hover/cat:fill-primary-500 transition"
+                                      d="M11.25 18C11.25 18.1989 11.329 18.3897 11.4697 18.5303C11.6103 18.671 11.8011 18.75 12 18.75C12.1989 18.75 12.3897 18.671 12.5303 18.5303C12.671 18.3897 12.75 18.1989 12.75 18V15C12.75 14.8011 12.671 14.6103 12.5303 14.4697C12.3897 14.329 12.1989 14.25 12 14.25C11.8011 14.25 11.6103 14.329 11.4697 14.4697C11.329 14.6103 11.25 14.8011 11.25 15V18Z"
+                                      fill=""></path>
+                                <path class="fill-gray-600 group-hover/cat:fill-primary-500 transition"
+                                      fill-rule="evenodd" clip-rule="evenodd"
+                                      d="M12 1.25C11.292 1.25 10.649 1.453 9.95 1.792C9.276 2.12 8.496 2.604 7.523 3.208L5.456 4.491C4.536 5.063 3.797 5.521 3.229 5.956C2.64 6.406 2.188 6.866 1.861 7.463C1.535 8.058 1.389 8.692 1.318 9.441C1.25 10.166 1.25 11.054 1.25 12.167V13.78C1.25 15.684 1.25 17.187 1.403 18.362C1.559 19.567 1.889 20.54 2.633 21.309C3.38 22.082 4.33 22.428 5.508 22.591C6.648 22.75 8.106 22.75 9.942 22.75H14.058C15.894 22.75 17.352 22.75 18.492 22.591C19.669 22.428 20.62 22.082 21.368 21.309C22.111 20.54 22.441 19.567 22.598 18.362C22.75 17.187 22.75 15.684 22.75 13.78V12.167C22.75 11.054 22.75 10.167 22.682 9.441C22.612 8.691 22.465 8.058 22.139 7.463C21.812 6.866 21.359 6.407 20.771 5.956C20.203 5.52 19.465 5.063 18.544 4.491L16.477 3.208C15.504 2.604 14.724 2.12 14.049 1.792C13.352 1.452 12.709 1.25 12 1.25ZM8.28 4.504C9.295 3.874 10.01 3.432 10.607 3.141C11.188 2.858 11.6 2.75 12 2.75C12.4 2.75 12.812 2.858 13.393 3.141C13.991 3.431 14.705 3.874 15.72 4.504L17.72 5.745C18.681 6.342 19.356 6.761 19.86 7.147C20.349 7.522 20.63 7.831 20.823 8.183C21.016 8.536 21.129 8.949 21.188 9.581C21.249 10.229 21.25 11.046 21.25 12.204V13.725C21.25 15.695 21.248 17.101 21.11 18.168C20.974 19.216 20.717 19.824 20.29 20.267C19.865 20.706 19.287 20.967 18.286 21.106C17.26 21.248 15.907 21.25 14 21.25H10C8.092 21.25 6.74 21.248 5.714 21.106C4.713 20.966 4.135 20.706 3.711 20.266C3.283 19.824 3.026 19.216 2.891 18.168C2.751 17.101 2.75 15.696 2.75 13.725V12.204C2.75 11.046 2.75 10.229 2.812 9.581C2.871 8.949 2.984 8.536 3.177 8.183C3.37 7.831 3.651 7.522 4.141 7.147C4.644 6.761 5.319 6.342 6.28 5.745L8.28 4.504Z"
+                                      fill=""></path>
+                            </svg>
+                            خانه و آشپزخانه
+                        </li>
+                        <li class="category-item group/cat flex items-center gap-x-1 text-sm rounded-lg px-4 py-3 text-gray-700 hover:text-primary-500 cursor-pointer"
+                            data-category="cat4">
+                            <svg width="20" height="20" viewbox="0 0 14 14" fill="none"
+                                 xmlns="http://www.w3.org/2000/svg">
+                                <g clip-path="url(#clip0_2011_7)">
+                                    <path class="stroke-gray-600 group-hover/cat:stroke-primary-500 transition"
+                                          d="M1.29 9.71C1.10375 9.89736 0.999207 10.1508 0.999207 10.415C0.999207 10.6792 1.10375 10.9326 1.29 11.12L3.38 13.21C3.56736 13.3963 3.82081 13.5008 4.085 13.5008C4.34919 13.5008 4.60264 13.3963 4.79 13.21L8.5 9.5L5 6L1.29 9.71Z"
+                                          stroke="" stroke-linecap="round" stroke-linejoin="round"></path>
+                                    <path class="stroke-gray-600 group-hover/cat:stroke-primary-500 transition"
+                                          d="M5.54001 6.54L11.29 0.789998C11.4306 0.651241 11.6092 0.557244 11.8032 0.51987C11.9972 0.482496 12.1979 0.503419 12.38 0.579998C12.5626 0.655018 12.719 0.782416 12.8293 0.946136C12.9396 1.10986 12.999 1.30257 13 1.5V3.67C13.0008 3.80161 12.9755 3.93207 12.9258 4.0539C12.876 4.17574 12.8027 4.28656 12.71 4.38L8.00001 9M8.04001 4.04L10.54 6.54"
+                                          stroke="" stroke-linecap="round" stroke-linejoin="round"></path>
+                                </g>
+                                <defs>
+                                    <clippath id="clip0_2011_7">
+                                        <rect width="14" height="14" fill="white"></rect>
+                                    </clippath>
+                                </defs>
+                            </svg>
+                            آرایشی بهداشتی
+                        </li>
+                        <li class="category-item group/cat flex items-center gap-x-1 text-sm rounded-lg px-4 py-3 text-gray-700 hover:text-primary-500 cursor-pointer"
+                            data-category="cat5">
+                            <svg width="20" height="20" viewbox="0 0 22 21" fill="none"
+                                 xmlns="http://www.w3.org/2000/svg">
+                                <path class="fill-gray-600 group-hover/cat:fill-primary-500 transition"
+                                      d="M19.66 19L12.87 2.81C12.5 1.97 11.93 1.29 11.16 0.77C10.4 0.26 9.55 0 8.61 0C7.77 0 7 0.21 6.3 0.63C5.25 1.26 5.04 1.62 4.63 2.32C4.22 3.02 4 3.8 4 4.64L4.03 8H1.03V13.45C1.65 13.17 2.31 13.03 3 13.03V10.03H8C8.57 10.03 9.04 10.23 9.43 10.62C9.82 11 10 11.47 10 12V19.03H7.91C7.75561 19.7513 7.43359 20.4262 6.97 21H12V12C12 11.28 11.8 10.62 11.45 10C11.1 9.38 10.61 8.91 10 8.56C9.42 8.2 8.75 8 8 8H6V4.64C6 3.92 6.25 3.31 6.76 2.79C7.27 2.27 7.89 2 8.61 2C9.14 2 9.63 2.16 10.06 2.46C10.49 2.76 10.81 3.14 11 3.61L17.46 19L15 19.03V21H22V19.03L19.66 19ZM3 17C3.55 17 4 17.45 4 18C4 18.55 3.55 19 3 19C2.45 19 2 18.55 2 18C2 17.45 2.45 17 3 17ZM3 15C1.34 15 0 16.34 0 18C0 19.66 1.34 21 3 21C4.66 21 6 19.66 6 18C6 16.34 4.66 15 3 15Z"
+                                      fill=""></path>
+                            </svg>
+                            لوازم خانگی برقی
+                        </li>
+                        <li class="category-item group/cat flex items-center gap-x-1 text-sm rounded-lg px-4 py-3 text-gray-700 hover:text-primary-500 cursor-pointer"
+                            data-category="cat6">
+                            <svg width="20" height="20" viewbox="0 0 24 24" fill="none"
+                                 xmlns="http://www.w3.org/2000/svg">
+                                <path class="stroke-gray-600 group-hover/cat:stroke-primary-500 transition"
+                                      d="M13 11L18 6M19 7L17 5L19.5 3.5L20.5 4.5L19 7ZM4.025 8.975C3.5449 8.49532 3.2146 7.8864 3.07434 7.22237C2.93408 6.55835 2.9899 5.86787 3.235 5.235L4.657 6.657H6.657V4.657L5.235 3.235C5.86792 2.98934 6.55862 2.93306 7.22295 3.07302C7.88729 3.21297 8.49658 3.54312 8.97659 4.02324C9.4566 4.50336 9.78662 5.11272 9.92643 5.77709C10.0662 6.44145 10.0098 7.13214 9.764 7.765L16.234 14.236C16.8669 13.9902 17.5575 13.9338 18.2219 14.0736C18.8863 14.2134 19.4956 14.5434 19.9758 15.0234C20.4559 15.5034 20.786 16.1127 20.926 16.7771C21.0659 17.4414 21.0097 18.1321 20.764 18.765L19.343 17.343H17.343V19.343L18.765 20.765C18.1322 21.0107 17.4417 21.067 16.7775 20.9272C16.1133 20.7874 15.504 20.4575 15.024 19.9777C14.5439 19.4978 14.2137 18.8887 14.0736 18.2246C13.9336 17.5604 13.9896 16.8699 14.235 16.237L7.763 9.765C7.1304 10.0097 6.44032 10.0653 5.7767 9.92503C5.11308 9.78477 4.50452 9.45472 4.025 8.975Z"
+                                      stroke="" stroke-width="1.5" stroke-linecap="round"
+                                      stroke-linejoin="round"></path>
+                                <path class="stroke-gray-600 group-hover/cat:stroke-primary-500 transition"
+                                      d="M12.203 14.5L6.59901 20.104C6.47361 20.2296 6.32468 20.3293 6.16072 20.3973C5.99677 20.4653 5.82101 20.5003 5.64351 20.5003C5.46601 20.5003 5.29025 20.4653 5.12629 20.3973C4.96234 20.3293 4.8134 20.2296 4.68801 20.104L3.89601 19.312C3.77038 19.1866 3.67071 19.0377 3.6027 18.8737C3.5347 18.7098 3.49969 18.534 3.49969 18.3565C3.49969 18.179 3.5347 18.0032 3.6027 17.8393C3.67071 17.6753 3.77038 17.5264 3.89601 17.401L9.50001 11.797"
+                                      stroke="" stroke-width="1.5" stroke-linecap="round"
+                                      stroke-linejoin="round"></path>
+                            </svg>
+                            ابزار آلات
+                        </li>
+                        <li class="category-item group/cat flex items-center gap-x-1 text-sm rounded-lg px-4 py-3 text-gray-700 hover:text-primary-500 cursor-pointer"
+                            data-category="cat7">
+                            <svg width="20" height="20" viewbox="0 0 24 24" fill="none"
+                                 xmlns="http://www.w3.org/2000/svg">
+                                <path class="fill-gray-600 group-hover/cat:fill-primary-500 transition"
+                                      d="M12 4.5C11.348 4.5 10.792 4.916 10.585 5.5C10.5534 5.59436 10.5033 5.68148 10.4376 5.75629C10.372 5.83109 10.2921 5.89208 10.2026 5.93571C10.1132 5.97933 10.0159 6.00471 9.91658 6.01037C9.81721 6.01603 9.71771 6.00186 9.62388 5.96868C9.53005 5.9355 9.44376 5.88398 9.37004 5.81711C9.29632 5.75025 9.23665 5.66938 9.1945 5.57922C9.15235 5.48906 9.12856 5.39141 9.12453 5.29197C9.1205 5.19253 9.1363 5.09327 9.17101 5C9.32784 4.55656 9.58674 4.15621 9.92681 3.83126C10.2669 3.50632 10.6786 3.26589 11.1287 3.12939C11.5788 2.99288 12.0547 2.96413 12.518 3.04545C12.9813 3.12677 13.4189 3.31588 13.7957 3.59751C14.1724 3.87915 14.4776 4.24542 14.6867 4.66675C14.8957 5.08809 15.0028 5.55268 14.9993 6.02302C14.9957 6.49336 14.8816 6.95628 14.6661 7.37439C14.4507 7.79251 14.14 8.15411 13.759 8.43C13.458 8.649 13.191 8.868 13.002 9.097C12.816 9.323 12.75 9.504 12.75 9.66C12.7501 9.77887 12.7823 9.89552 12.8432 9.99761C12.9041 10.0997 12.9915 10.1834 13.096 10.24L20.703 14.352C21.1869 14.6138 21.5696 15.0295 21.7907 15.5333C22.0118 16.0371 22.0585 16.6002 21.9236 17.1336C21.7886 17.6669 21.4797 18.1401 21.0456 18.4781C20.6116 18.8161 20.0772 18.9998 19.527 19H4.47301C3.92285 18.9998 3.38847 18.8161 2.95441 18.4781C2.52035 18.1401 2.21141 17.6669 2.07646 17.1336C1.94152 16.6002 1.98828 16.0371 2.20934 15.5333C2.4304 15.0295 2.81315 14.6138 3.29701 14.352L9.39701 11.054C9.48369 11.0072 9.57873 10.9779 9.67672 10.9678C9.77471 10.9577 9.87373 10.967 9.96812 10.9952C10.0625 11.0234 10.1504 11.0699 10.2268 11.1321C10.3033 11.1942 10.3667 11.2708 10.4135 11.3575C10.4603 11.4442 10.4896 11.5392 10.4997 11.6372C10.5098 11.7352 10.5005 11.8342 10.4723 11.9286C10.4441 12.023 10.3976 12.1109 10.3354 12.1873C10.2733 12.2638 10.1967 12.3272 10.11 12.374L4.01001 15.671C3.81948 15.774 3.66875 15.9375 3.58169 16.1358C3.49463 16.3342 3.47621 16.5558 3.52936 16.7658C3.58251 16.9757 3.70418 17.1619 3.87511 17.2949C4.04603 17.4279 4.25644 17.5001 4.47301 17.5H19.527C19.7436 17.5001 19.954 17.4279 20.1249 17.2949C20.2958 17.1619 20.4175 16.9757 20.4707 16.7658C20.5238 16.5558 20.5054 16.3342 20.4183 16.1358C20.3313 15.9375 20.1805 15.774 19.99 15.671L12.383 11.559C12.0404 11.3738 11.7543 11.0995 11.5548 10.7651C11.3554 10.4306 11.2501 10.0484 11.25 9.659C11.25 9.036 11.528 8.528 11.844 8.144C12.158 7.764 12.551 7.454 12.879 7.216C13.1362 7.03028 13.3278 6.76783 13.4264 6.46636C13.525 6.16488 13.5255 5.83991 13.4279 5.53813C13.3302 5.23635 13.1394 4.97329 12.8828 4.78677C12.6263 4.60024 12.3172 4.49984 12 4.5Z"
+                                      fill=""></path>
+                            </svg>
+                            مد و پوشاک
+                        </li>
+                        <li class="category-item group/cat flex items-center gap-x-1 text-sm rounded-lg px-4 py-3 text-gray-700 hover:text-primary-500 cursor-pointer"
+                            data-category="cat8">
+                            <svg width="20" height="20" viewbox="0 0 20 20" fill="none"
+                                 xmlns="http://www.w3.org/2000/svg">
+                                <path class="fill-gray-600 group-hover/cat:fill-primary-500 transition"
+                                      d="M10 2C7.87827 2 5.84344 2.84285 4.34315 4.34315C2.84285 5.84344 2 7.87827 2 10C2 12.1217 2.84285 14.1566 4.34315 15.6569C5.84344 17.1571 7.87827 18 10 18C12.1217 18 14.1566 17.1571 15.6569 15.6569C17.1571 14.1566 18 12.1217 18 10C18 7.87827 17.1571 5.84344 15.6569 4.34315C14.1566 2.84285 12.1217 2 10 2ZM8.336 3.199C9.42984 2.93113 10.5722 2.93113 11.666 3.199L10 4.17L8.336 3.199ZM7.092 3.631L9.502 5.036V6.736L6.733 8.688L5.173 8.121L4.547 5.609C5.2298 4.76031 6.10125 4.08367 7.092 3.631ZM3.801 6.746L4.194 8.326L3.03 9.36C3.115 8.423 3.383 7.54 3.801 6.746ZM3.035 10.692L4.862 9.072L6.408 9.633L7.453 12.923L6.736 13.996H4.252C3.5695 13.0173 3.15008 11.8795 3.034 10.692M5.097 14.996H6.651L7.161 16.4C6.39444 16.0594 5.69532 15.5839 5.097 14.996ZM8.373 16.81L7.558 14.564L8.268 13.501H11.735L12.446 14.564L11.631 16.809C10.5601 17.0652 9.44388 17.0662 8.373 16.81ZM12.844 16.397L13.354 14.995H14.903C14.306 15.5817 13.6086 16.0565 12.844 16.397ZM15.748 13.995H13.27L12.55 12.92L13.575 9.633L15.142 9.069L16.966 10.691C16.8499 11.8785 16.4305 13.0163 15.748 13.995ZM16.971 9.357L15.811 8.326L16.204 6.754C16.618 7.544 16.886 8.424 16.971 9.357ZM15.457 5.615L14.832 8.118L13.248 8.688L10.501 6.736V5.036L12.91 3.63C13.9025 4.08399 14.775 4.76375 15.458 5.615M7.398 9.445L10 7.607L12.586 9.444L11.634 12.5H8.367L7.398 9.445Z"
+                                      fill=""></path>
+                            </svg>
+                            ورزش و سفر
+                        </li>
+                    </ul>
+                    <div class="w-2/3 p-4 grid grid-cols-2 xl:grid-cols-3 gap-y-5 gap-x-10" id="subcategory-container">
+                        <div>
+                            <a href="#" class="flex gap-x-2 items-center mb-5">
+                                <div class="w-fit min-w-fit text-primary-500 text-sm hover:text-primary-700 transition">
+                                    گوشی موبایل
+                                </div>
+                                <div class="w-full h-0.5 border-t border-dashed border-primary-500/30">
+                                </div>
+                            </a>
+                            <ul class="pr-4 flex flex-col gap-y-3 text-xs mb-3">
+                                <li>
+                                    <a href="#" class=" text-zinc-500 hover:text-zinc-700 transition">
+                                        سامسونگ
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class=" text-zinc-500 hover:text-zinc-700 transition">
+                                        شیائومی
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class=" text-zinc-500 hover:text-zinc-700 transition">
+                                        آیفون
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class=" text-zinc-500 hover:text-zinc-700 transition">
+                                        هاوائی
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class=" text-zinc-500 hover:text-zinc-700 transition">
+                                        اچ تی سی
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class=" text-zinc-500 hover:text-zinc-700 transition">
+                                        ال جی
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class=" text-zinc-500 hover:text-zinc-700 transition">
+                                        سونی
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div>
+                            <a href="#" class="flex gap-x-2 items-center mb-5">
+                                <div class="w-fit min-w-fit text-primary-500 text-sm hover:text-primary-700 transition">
+                                    گوشی موبایل
+                                </div>
+                                <div class="w-full h-0.5 border-t border-dashed border-primary-500/30">
+                                </div>
+                            </a>
+                            <ul class="pr-4 flex flex-col gap-y-3 text-xs mb-3">
+                                <li>
+                                    <a href="#" class=" text-zinc-500 hover:text-zinc-700 transition">
+                                        سامسونگ
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class=" text-zinc-500 hover:text-zinc-700 transition">
+                                        شیائومی
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class=" text-zinc-500 hover:text-zinc-700 transition">
+                                        آیفون
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class=" text-zinc-500 hover:text-zinc-700 transition">
+                                        هاوائی
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class=" text-zinc-500 hover:text-zinc-700 transition">
+                                        اچ تی سی
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class=" text-zinc-500 hover:text-zinc-700 transition">
+                                        ال جی
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class=" text-zinc-500 hover:text-zinc-700 transition">
+                                        سونی
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div>
+                            <a href="#" class="flex gap-x-2 items-center mb-5">
+                                <div class="w-fit min-w-fit text-primary-500 text-sm hover:text-primary-700 transition">
+                                    گوشی موبایل
+                                </div>
+                                <div class="w-full h-0.5 border-t border-dashed border-primary-500/30">
+                                </div>
+                            </a>
+                            <ul class="pr-4 flex flex-col gap-y-3 text-xs mb-3">
+                                <li>
+                                    <a href="#" class=" text-zinc-500 hover:text-zinc-700 transition">
+                                        سامسونگ
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class=" text-zinc-500 hover:text-zinc-700 transition">
+                                        شیائومی
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class=" text-zinc-500 hover:text-zinc-700 transition">
+                                        آیفون
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class=" text-zinc-500 hover:text-zinc-700 transition">
+                                        هاوائی
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class=" text-zinc-500 hover:text-zinc-700 transition">
+                                        اچ تی سی
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class=" text-zinc-500 hover:text-zinc-700 transition">
+                                        ال جی
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class=" text-zinc-500 hover:text-zinc-700 transition">
+                                        سونی
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div>
+                            <a href="#" class="flex gap-x-2 items-center mb-5">
+                                <div class="w-fit min-w-fit text-primary-500 text-sm hover:text-primary-700 transition">
+                                    گوشی موبایل
+                                </div>
+                                <div class="w-full h-0.5 border-t border-dashed border-primary-500/30">
+                                </div>
+                            </a>
+                            <ul class="pr-4 flex flex-col gap-y-3 text-xs mb-3">
+                                <li>
+                                    <a href="#" class=" text-zinc-500 hover:text-zinc-700 transition">
+                                        سامسونگ
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class=" text-zinc-500 hover:text-zinc-700 transition">
+                                        شیائومی
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class=" text-zinc-500 hover:text-zinc-700 transition">
+                                        آیفون
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class=" text-zinc-500 hover:text-zinc-700 transition">
+                                        هاوائی
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class=" text-zinc-500 hover:text-zinc-700 transition">
+                                        اچ تی سی
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class=" text-zinc-500 hover:text-zinc-700 transition">
+                                        ال جی
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class=" text-zinc-500 hover:text-zinc-700 transition">
+                                        سونی
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <a href="#" class="pt-1 flex gap-x-2 items-center group relative">
+                <img class="mb-2 size-4.5" src="{% static 'image\icons\discount.svg' %}" alt="">
+                <li class="relative text-zinc-600 text-sm group-hover:text-primary-500 transition pb-2
+            after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px]
+            after:bg-primary-500 after:scale-x-0 after:origin-right after:transition-transform after:duration-300
+            group-hover:after:scale-x-100">
+                    شگفت انگیزها
+                </li>
+            </a>
+            <a href="#" class="pt-1 flex gap-x-1 items-center group relative">
+                <img class="mb-2 size-4.5" src="{% static 'image\icons\award.svg' %}" alt="">
+                <li class="relative text-zinc-600 text-sm group-hover:text-primary-500 transition pb-2
+            after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px]
+            after:bg-primary-500 after:scale-x-0 after:origin-right after:transition-transform after:duration-300
+            group-hover:after:scale-x-100">
+                    پرفروش ترین‌ها
+                </li>
+            </a>
+            <a href="#" class="pt-1 flex gap-x-2 items-center group relative">
+                <li class="relative text-zinc-600 text-sm group-hover:text-primary-500 transition pb-2
+            after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px]
+            after:bg-primary-500 after:scale-x-0 after:origin-right after:transition-transform after:duration-300
+            group-hover:after:scale-x-100">
+                    وبلاگ
+                </li>
+            </a>
+            <a href="#" class="pt-1 flex gap-x-2 items-center group relative">
+                <li class="relative text-zinc-600 text-sm group-hover:text-primary-500 transition pb-2
+            after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px]
+            after:bg-primary-500 after:scale-x-0 after:origin-right after:transition-transform after:duration-300
+            group-hover:after:scale-x-100">
+                    درباره ما
+                </li>
+            </a>
+            <a href="#" class="pt-1 flex gap-x-2 items-center group relative">
+                <li class="relative text-zinc-600 text-sm group-hover:text-primary-500 transition pb-2
+            after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px]
+            after:bg-primary-500 after:scale-x-0 after:origin-right after:transition-transform after:duration-300
+            group-hover:after:scale-x-100">
+                    تماس با ما
+                </li>
+            </a>
+        </ul>
+        <!-- buttons -->
+        <div class="flex gap-x-5">
+            <!-- cart -->
+            <div class="absolute top-3 left-16 md:top-0 md:left-0 md:relative group cursor-pointer border-2 border-primary-500 hover:shadow-lg hover:bg-zinc-200 transition rounded-xl p-2.5">
+                <img src="{% static 'image\icons\cart.svg' %}" alt="">
+                <span class="absolute -right-2 -top-2 flex size-6 drop-shadow-lg items-center justify-center rounded-full bg-white text-sm font-semibold text-primary-500">
+            3
+          </span>
+                <div class="z-50 hidden group-hover:block absolute -left-16 sm:left-0 top-11 w-96 md:w-[400px] rounded-2xl border border-zinc-300 bg-white shadow-lg">
+                    <!-- Items -->
+                    <!-- <div class="text-zinc-600 text-center py-10 font-yekanBakhRegular flex justify-center items-center gap-x-1">
+                      <img src="./assets/image/icons/cancel.svg' %}" alt="">
+                      سبد خرید خالی است !
+                    </div> -->
+                    <div class="h-72 md:h-64">
+                        <ul class="main-scroll h-full space-y-2 divide-y divide-gray-100 overflow-y-auto p-5 pl-2">
+                            <li>
+                                <div class="flex gap-x-2 pt-5">
+                                    <!-- Product -->
+                                    <div class="relative min-w-fit">
+                                        <a href="./single-product.html">
+                                            <img alt="" class="h-[120px] w-[120px]"
+                                                 src="{% static 'image\products\1.webp' %}">
+                                        </a>
+                                    </div>
+                                    <div class="w-full flex gap-x-1">
+                                        <!-- Title -->
+                                        <a class="line-clamp-2 h-12 text-zinc-700" href="./single-product.html">
+                                            لپ تاپ مدل لنوو دارای 2 پورت حرفه ای با قیمت مناسب
+                                        </a>
+                                        <!-- delete -->
+                                        <div class="size-8 group cursor-pointer rounded-lg p-1 bg-primary-400 hover:bg-primary-500 transition">
+                                            <svg width="24" height="24" viewbox="0 0 24 24" fill="none"
+                                                 xmlns="http://www.w3.org/2000/svg">
+                                                <path class="stroke-white" d="M20.5 6H3.5M9.5 11L10 16M14.5 11L14 16"
+                                                      stroke="" stroke-width="1.5" stroke-linecap="round"></path>
+                                                <path class="stroke-white"
+                                                      d="M6.5 6H6.61C7.01245 5.98972 7.40242 5.85822 7.72892 5.62271C8.05543 5.3872 8.30325 5.05864 8.44 4.68L8.474 4.577L8.571 4.286C8.654 4.037 8.696 3.913 8.751 3.807C8.85921 3.59939 9.01451 3.41999 9.20448 3.28316C9.39444 3.14633 9.6138 3.05586 9.845 3.019C9.962 3 10.093 3 10.355 3H13.645C13.907 3 14.038 3 14.155 3.019C14.3862 3.05586 14.6056 3.14633 14.7955 3.28316C14.9855 3.41999 15.1408 3.59939 15.249 3.807C15.304 3.913 15.346 4.037 15.429 4.286L15.526 4.577C15.6527 4.99827 15.9148 5.36601 16.2717 5.62326C16.6285 5.88051 17.0603 6.01293 17.5 6"
+                                                      stroke="black" stroke-width="1.5"></path>
+                                                <path class="stroke-white"
+                                                      d="M18.374 15.4C18.197 18.054 18.108 19.381 17.243 20.19C16.378 20.999 15.048 21 12.387 21H11.613C8.95299 21 7.62299 21 6.75699 20.19C5.89199 19.381 5.80399 18.054 5.62699 15.4L5.16699 8.5M18.833 8.5L18.633 11.5"
+                                                      stroke="black" stroke-width="1.5" stroke-linecap="round"></path>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flex justify-between px-6 w-full pb-2">
+                                    <!-- Quantity Container 1 -->
+                                    <div class="quantity-container flex h-10 max-w-28 items-center justify-between rounded-lg border border-gray-100 px-2 py-1">
+                                        <button class="cursor-pointer" type="button" data-action="increment">
+                                            <svg class="fill-green-500" xmlns="http://www.w3.org/2000/svg" width="18"
+                                                 height="18" viewbox="0 0 256 256">
+                                                <path d="M222,128a6,6,0,0,1-6,6H134v82a6,6,0,0,1-12,0V134H40a6,6,0,0,1,0-12h82V40a6,6,0,0,1,12,0v82h82A6,6,0,0,1,222,128Z"></path>
+                                            </svg>
+                                        </button>
+                                        <input value="1" disabled="" type="number"
+                                               class="flex h-5 w-full grow select-none items-center justify-center bg-transparent text-center text-sm text-zinc-700 outline-none">
+                                        <button class="cursor-pointer" type="button" data-action="decrement">
+                                            <svg class="fill-red-500" xmlns="http://www.w3.org/2000/svg" width="18"
+                                                 height="18" viewbox="0 0 256 256">
+                                                <path d="M222,128a6,6,0,0,1-6,6H40a6,6,0,0,1,0-12H216A6,6,0,0,1,222,128Z"></path>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                    <!-- Price -->
+                                    <div class="text-gray-700">
+                                        <span class="text-lg font-bold">1,800,000</span>
+                                        <span class="text-sm">تومان</span>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="flex gap-x-2 pt-5">
+                                    <!-- Product -->
+                                    <div class="relative min-w-fit">
+                                        <a href="./single-product.html">
+                                            <img alt="" class="h-[120px] w-[120px]"
+                                                 src="{% static 'image\products\1.webp' %}">
+                                        </a>
+                                    </div>
+                                    <div class="w-full flex gap-x-1">
+                                        <!-- Title -->
+                                        <a class="line-clamp-2 h-12 text-zinc-700" href="./single-product.html">
+                                            لپ تاپ مدل لنوو دارای 2 پورت حرفه ای با قیمت مناسب
+                                        </a>
+                                        <!-- delete -->
+                                        <div class="size-8 group cursor-pointer rounded-lg p-1 bg-primary-400 hover:bg-primary-500 transition">
+                                            <svg width="24" height="24" viewbox="0 0 24 24" fill="none"
+                                                 xmlns="http://www.w3.org/2000/svg">
+                                                <path class="stroke-white" d="M20.5 6H3.5M9.5 11L10 16M14.5 11L14 16"
+                                                      stroke="" stroke-width="1.5" stroke-linecap="round"></path>
+                                                <path class="stroke-white"
+                                                      d="M6.5 6H6.61C7.01245 5.98972 7.40242 5.85822 7.72892 5.62271C8.05543 5.3872 8.30325 5.05864 8.44 4.68L8.474 4.577L8.571 4.286C8.654 4.037 8.696 3.913 8.751 3.807C8.85921 3.59939 9.01451 3.41999 9.20448 3.28316C9.39444 3.14633 9.6138 3.05586 9.845 3.019C9.962 3 10.093 3 10.355 3H13.645C13.907 3 14.038 3 14.155 3.019C14.3862 3.05586 14.6056 3.14633 14.7955 3.28316C14.9855 3.41999 15.1408 3.59939 15.249 3.807C15.304 3.913 15.346 4.037 15.429 4.286L15.526 4.577C15.6527 4.99827 15.9148 5.36601 16.2717 5.62326C16.6285 5.88051 17.0603 6.01293 17.5 6"
+                                                      stroke="black" stroke-width="1.5"></path>
+                                                <path class="stroke-white"
+                                                      d="M18.374 15.4C18.197 18.054 18.108 19.381 17.243 20.19C16.378 20.999 15.048 21 12.387 21H11.613C8.95299 21 7.62299 21 6.75699 20.19C5.89199 19.381 5.80399 18.054 5.62699 15.4L5.16699 8.5M18.833 8.5L18.633 11.5"
+                                                      stroke="black" stroke-width="1.5" stroke-linecap="round"></path>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flex justify-between px-6 w-full pb-2">
+                                    <!-- Quantity Container 1 -->
+                                    <div class="quantity-container flex h-10 max-w-28 items-center justify-between rounded-lg border border-gray-100 px-2 py-1">
+                                        <button class="cursor-pointer" type="button" data-action="increment">
+                                            <svg class="fill-green-500" xmlns="http://www.w3.org/2000/svg" width="18"
+                                                 height="18" viewbox="0 0 256 256">
+                                                <path d="M222,128a6,6,0,0,1-6,6H134v82a6,6,0,0,1-12,0V134H40a6,6,0,0,1,0-12h82V40a6,6,0,0,1,12,0v82h82A6,6,0,0,1,222,128Z"></path>
+                                            </svg>
+                                        </button>
+                                        <input value="1" disabled="" type="number"
+                                               class="flex h-5 w-full grow select-none items-center justify-center bg-transparent text-center text-sm text-zinc-700 outline-none">
+                                        <button class="cursor-pointer" type="button" data-action="decrement">
+                                            <svg class="fill-red-500" xmlns="http://www.w3.org/2000/svg" width="18"
+                                                 height="18" viewbox="0 0 256 256">
+                                                <path d="M222,128a6,6,0,0,1-6,6H40a6,6,0,0,1,0-12H216A6,6,0,0,1,222,128Z"></path>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                    <!-- Price -->
+                                    <div class="text-gray-700">
+                                        <span class="text-lg font-bold">1,800,000</span>
+                                        <span class="text-sm">تومان</span>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- Down Price -->
+                    <div class="flex items-center justify-between border-t border-gray-100 p-5">
+                        <div class="flex flex-col items-center gap-y-1">
+                            <div class="text-sm text-zinc-600">
+                                مبلغ قابل پرداخت
+                            </div>
+                            <div class="text-zinc-600">
+                                <span class="font-bold">3,600,000</span>
+                                <span class="text-xs">تومان</span>
+                            </div>
+                        </div>
+                        <a href="checkout.html"
+                           class="w-28 py-3 text-sm bg-primary-400 hover:bg-primary-500 transition text-gray-100 rounded-xl text-center">
+                            <button type="button">
+                                ثبت سفارش
+                            </button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!-- login / register -->
+            <a href="#" data-modal="modal1"
+               class="open-modal absolute md:static top-3.5 left-3 md:flex bg-gradient-to-bl from-primary-500 to-primary-400 hover:opacity-90 hover:shadow-lg transition rounded-xl p-2.5 items-center gap-x-2 text-sm text-white">
+                <p class="hidden lg:block">
+                    ورود | ثبت نام
+                </p>
+                <img src="{% static 'image\icons\user.svg' %}" alt="">
+            </a>
+        </div>
+    </div>
+    <!-- modal login -->
+    <div id="modal1"
+         class="modal fixed inset-0 bg-black/20 bg-opacity-50 hidden flex items-center justify-center transition-opacity duration-300 z-50">
+        <div class="modal-box bg-white p-6 rounded-3xl shadow-lg w-10/12 md:w-6/12 lg:w-5/12 xl:w-3/12 opacity-0 scale-90 transition-transform duration-300">
+            <!-- logo -->
+            <img src="{% static 'image\logo.png' %}" class="max-w-32 h-fit mx-auto" alt="">
+            <!-- login -->
+            <div class="pt-5">
+                <p class="text-lg text-zinc-800">
+                    ورود / عضویت
+                </p>
+                <p class="text-sm text-zinc-500 mt-8">
+                    شماره موبایل خود را وارد کنید:
+                </p>
+                <div class="relative mt-2">
+                    <input class="rounded-xl text-zinc-600 bg-[#f0f0f0] pl-10 pr-4 py-2.5 w-full placeholder:text-zinc-400 placeholder:text-sm focus:outline-0"
+                           type="tel" placeholder="09.........">
+                    <a href="#">
+                        <img class="top-3 absolute left-3 size-5" src="{% static 'image\icons\phone.svg' %}" alt="">
+                    </a>
+                </div>
+                <a href="#"
+                   class="text-center w-1/2 mx-auto mt-7 bg-gradient-to-bl from-primary-500 to-primary-400 hover:opacity-90 hover:shadow-lg transition rounded-2xl px-2.5 py-3 flex justify-center items-center gap-x-2 text-sm text-white">
+                    ارسال کد تایید
+                </a>
+            </div>
+            <!-- verify -->
+            <!-- <div class="pt-5">
+              <p class="text-lg text-zinc-800">
+                تایید شماره موبایل
+              </p>
+              <p class="text-sm text-zinc-500 mt-8">
+                کد 6 رقمی ارسال شده را وارد کنید:
+              </p>
+              <div class="input-field mb-5 flex flex-row-reverse gap-x-4 justify-center mt-2">
+                <input name="code" class="code-input 213 border-2 border-zinc-400 focus:border-primary-400 transition w-10 h-12 rounded-md outline-none text-center focus:outline-0 focus:shadow-lg text-zinc-700" required/>
+                <input name="code" class="code-input border-2 border-zinc-400 focus:border-primary-400 transition w-10 h-12 rounded-md outline-none text-center focus:outline-0 focus:shadow-lg text-zinc-700" required/>
+                <input name="code" class="code-input border-2 border-zinc-400 focus:border-primary-400 transition w-10 h-12 rounded-md outline-none text-center focus:outline-0 focus:shadow-lg text-zinc-700" required/>
+                <input name="code" class="code-input border-2 border-zinc-400 focus:border-primary-400 transition w-10 h-12 rounded-md outline-none text-center focus:outline-0 focus:shadow-lg text-zinc-700" required/>
+                <input name="code" class="code-input border-2 border-zinc-400 focus:border-primary-400 transition w-10 h-12 rounded-md outline-none text-center focus:outline-0 focus:shadow-lg text-zinc-700" required/>
+                <input name="code" class="code-input border-2 border-zinc-400 focus:border-primary-400 transition w-10 h-12 rounded-md outline-none text-center focus:outline-0 focus:shadow-lg text-zinc-700" required/>
+              </div>
+              <a href="#" class="text-center w-1/2 mx-auto mt-7 bg-gradient-to-bl from-primary-500 to-primary-400 hover:opacity-90 hover:shadow-lg transition rounded-2xl px-2.5 py-3 flex justify-center items-center gap-x-2 text-sm text-white">
+                ورود
+              </a>
+            </div> -->
+        </div>
+    </div>
+</header>

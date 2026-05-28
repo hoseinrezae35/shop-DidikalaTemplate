@@ -1,0 +1,57 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="{% static 'image\fav.png' %}' %}">
+
+    <link rel="stylesheet" href="{% static 'css\main.css' %}">
+
+    {% block extra_css %}  {% endblock %}
+
+    <title>{% block title %} فروشگاه {% endblock %}</title>
+</head>
+
+<body class="max-w-[1700px] mx-auto">
+
+<!-- loading -->
+<div id="loading"
+     class="z-50 fixed inset-0 flex flex-col items-center justify-center bg-gradient-to-bl from-zinc-50 to-zinc-100 transition-opacity duration-700">
+    <div class="wrapper">
+        <div class="circle"></div>
+        <div class="circle"></div>
+        <div class="circle"></div>
+        <div class="shadow"></div>
+        <div class="shadow"></div>
+        <div class="shadow"></div>
+    </div>
+    <div class="flex items-center gap-6 mt-10">
+        <img class="max-w-20 md:max-w-36" src="{% static 'image\logo.png' %}" alt="">
+        <div class="text-xl md:text-3xl font-yekanBakhExtraBold text-zinc-800">فروشگاه آنلاین دیجیتو</div>
+    </div>
+</div>
+
+<!-- progress bar -->
+<div id="progressBar"></div>
+
+{% include 'include/header.html' %}
+
+<main class="mt-0 md:mt-8">
+    {% block content %}
+
+    {% endblock %}
+</main>
+
+{% include 'include/footer.html' %}
+
+</body>
+
+{% block extra_js %}  {% endblock %}
+<script src="{% static 'js\swiper.min.js' %}"></script>
+<script src="{% static 'js\sliders.js' %}"></script>
+<script src="{% static 'js\main.js' %}"></script>
+
+</html>
