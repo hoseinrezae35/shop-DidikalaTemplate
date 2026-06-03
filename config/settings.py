@@ -7,9 +7,7 @@ SECRET_KEY = config('SECRET_KEY', default='django-insecure-=wkh6th=r$yevt0dsmll6
 
 DEBUG = config('DEBUG', default=True, cast=bool)
 
-ALLOWED_HOSTS = config('ALLOWED_HOSTS',
-                       default='*',
-                       cast=lambda v: [item.strip() for item in v.split(',')])
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -23,6 +21,7 @@ INSTALLED_APPS = [
 
     # my_app
     'home.apps.HomeConfig',
+    'accounts.apps.AccountsConfig'
 ]
 
 MIDDLEWARE = [
@@ -106,6 +105,7 @@ STATICFILES_DIRS = [
     BASE_DIR / 'static'
 ]
 
+AUTH_USER_MODEL = 'accounts.user'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 

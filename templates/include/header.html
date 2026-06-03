@@ -880,61 +880,105 @@
                 </div>
             </div>
             <!-- login / register -->
-            <a href="#" data-modal="modal1"
-               class="open-modal absolute md:static top-3.5 left-3 md:flex bg-gradient-to-bl from-primary-500 to-primary-400 hover:opacity-90 hover:shadow-lg transition rounded-xl p-2.5 items-center gap-x-2 text-sm text-white">
-                <p class="hidden lg:block">
-                    ورود | ثبت نام
-                </p>
-                <img src="{% static 'image\icons\user.svg' %}" alt="">
-            </a>
+            {% if user.is_authenticated %}
+                <!-- نمایش برای کاربر لاگین شده -->
+                <div class="flex items-center gap-3">
+                    <a href="#"
+                       class="flex items-center gap-2 bg-gradient-to-bl from-primary-500 to-primary-400 hover:opacity-90 transition rounded-xl px-4 py-2 text-white">
+                        <img src="{% static 'image/icons/user.svg' %}" class="size-5" alt="">
+                    </a>
+                    <a href="{% url 'accounts:logout' %}"
+                       class="flex items-center gap-2 bg-red-500 hover:bg-red-600 transition rounded-xl px-4 py-2 text-white">
+                        <span class="hidden lg:block">خروج</span>
+                    </a>
+                </div>
+            {% else %}
+                <!-- نمایش برای کاربر لاگین نشده -->
+                <a href="#" data-modal="modal1" onclick="openModal()"
+                   class="open-modal absolute md:static top-3.5 left-3 md:flex bg-gradient-to-bl from-primary-500 to-primary-400 hover:opacity-90 hover:shadow-lg transition rounded-xl p-2.5 items-center gap-x-2 text-sm text-white">
+                    <p class="hidden lg:block">ورود | ثبت نام</p>
+                    <img src="{% static 'image/icons/user.svg' %}" alt="">
+                </a>
+            {% endif %}
         </div>
     </div>
     <!-- modal login -->
-    <div id="modal1"
-         class="modal fixed inset-0 bg-black/20 bg-opacity-50 hidden flex items-center justify-center transition-opacity duration-300 z-50">
-        <div class="modal-box bg-white p-6 rounded-3xl shadow-lg w-10/12 md:w-6/12 lg:w-5/12 xl:w-3/12 opacity-0 scale-90 transition-transform duration-300">
-            <!-- logo -->
-            <img src="{% static 'image\logo.png' %}" class="max-w-32 h-fit mx-auto" alt="">
-            <!-- login -->
-            <div class="pt-5">
-                <p class="text-lg text-zinc-800">
-                    ورود / عضویت
-                </p>
-                <p class="text-sm text-zinc-500 mt-8">
-                    شماره موبایل خود را وارد کنید:
-                </p>
-                <div class="relative mt-2">
-                    <input class="rounded-xl text-zinc-600 bg-[#f0f0f0] pl-10 pr-4 py-2.5 w-full placeholder:text-zinc-400 placeholder:text-sm focus:outline-0"
-                           type="tel" placeholder="09.........">
-                    <a href="#">
-                        <img class="top-3 absolute left-3 size-5" src="{% static 'image\icons\phone.svg' %}" alt="">
-                    </a>
+    <div id="modal1" class="modal fixed inset-0 bg-black/50 hidden flex items-center justify-center z-50">
+        <div class="modal-box bg-white p-6 rounded-3xl shadow-lg w-10/12 md:w-6/12 lg:w-5/12 xl:w-3/12">
+            <form method="post" action="{% url 'accounts:login' %}" class="pt-5">
+                {% csrf_token %}
+                <p class="text-lg text-zinc-800 mb-8 text-center">ورود به حساب کاربری</p>
+
+                <div class="mb-4">
+                    <p class="text-sm text-zinc-500 mb-2">ایمیل خود را وارد کنید:</p>
+                    <input type="email" name="username" class="rounded-xl text-zinc-600 bg-[#f0f0f0] px-4 py-2.5 w-full"
+                           placeholder="example@gmail.com" required>
                 </div>
-                <a href="#"
-                   class="text-center w-1/2 mx-auto mt-7 bg-gradient-to-bl from-primary-500 to-primary-400 hover:opacity-90 hover:shadow-lg transition rounded-2xl px-2.5 py-3 flex justify-center items-center gap-x-2 text-sm text-white">
-                    ارسال کد تایید
-                </a>
-            </div>
-            <!-- verify -->
-            <!-- <div class="pt-5">
-              <p class="text-lg text-zinc-800">
-                تایید شماره موبایل
-              </p>
-              <p class="text-sm text-zinc-500 mt-8">
-                کد 6 رقمی ارسال شده را وارد کنید:
-              </p>
-              <div class="input-field mb-5 flex flex-row-reverse gap-x-4 justify-center mt-2">
-                <input name="code" class="code-input 213 border-2 border-zinc-400 focus:border-primary-400 transition w-10 h-12 rounded-md outline-none text-center focus:outline-0 focus:shadow-lg text-zinc-700" required/>
-                <input name="code" class="code-input border-2 border-zinc-400 focus:border-primary-400 transition w-10 h-12 rounded-md outline-none text-center focus:outline-0 focus:shadow-lg text-zinc-700" required/>
-                <input name="code" class="code-input border-2 border-zinc-400 focus:border-primary-400 transition w-10 h-12 rounded-md outline-none text-center focus:outline-0 focus:shadow-lg text-zinc-700" required/>
-                <input name="code" class="code-input border-2 border-zinc-400 focus:border-primary-400 transition w-10 h-12 rounded-md outline-none text-center focus:outline-0 focus:shadow-lg text-zinc-700" required/>
-                <input name="code" class="code-input border-2 border-zinc-400 focus:border-primary-400 transition w-10 h-12 rounded-md outline-none text-center focus:outline-0 focus:shadow-lg text-zinc-700" required/>
-                <input name="code" class="code-input border-2 border-zinc-400 focus:border-primary-400 transition w-10 h-12 rounded-md outline-none text-center focus:outline-0 focus:shadow-lg text-zinc-700" required/>
-              </div>
-              <a href="#" class="text-center w-1/2 mx-auto mt-7 bg-gradient-to-bl from-primary-500 to-primary-400 hover:opacity-90 hover:shadow-lg transition rounded-2xl px-2.5 py-3 flex justify-center items-center gap-x-2 text-sm text-white">
-                ورود
-              </a>
-            </div> -->
+
+                <div class="mb-4">
+                    <p class="text-sm text-zinc-500 mb-2">رمز عبور:</p>
+                    <input type="password" name="password"
+                           class="rounded-xl text-zinc-600 bg-[#f0f0f0] px-4 py-2.5 w-full" placeholder="••••••••"
+                           required>
+                </div>
+
+                <div class="flex justify-between items-center mb-6 text-sm">
+                    <label class="flex items-center gap-2 text-zinc-600">
+                        <input type="checkbox" name="remember_me" class="rounded">
+                        <span>مرا به خاطر بسپار</span>
+                    </label>
+                </div>
+
+                <button type="submit"
+                        class="w-full bg-gradient-to-bl from-primary-500 to-primary-400 hover:opacity-90 rounded-2xl py-3 text-white">
+                    ورود
+                </button>
+
+                <div class="text-center mt-4 text-sm text-zinc-500">
+                    حساب کاربری ندارید؟
+                    <a href="#" onclick="showRegister()" class="text-primary-500 hover:underline">ثبت نام کنید</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- مودال ثبت نام -->
+    <div id="modal2" class="modal fixed inset-0 bg-black/50 hidden flex items-center justify-center z-50">
+        <div class="modal-box bg-white p-6 rounded-3xl shadow-lg w-10/12 md:w-6/12 lg:w-5/12 xl:w-3/12">
+            <form method="post" action="{% url 'accounts:register' %}" class="pt-5">
+                {% csrf_token %}
+                <p class="text-lg text-zinc-800 mb-8 text-center">ثبت نام کاربر جدید</p>
+
+                <div class="mb-4">
+                    <p class="text-sm text-zinc-500 mb-2">ایمیل:</p>
+                    <input type="email" name="email" class="rounded-xl text-zinc-600 bg-[#f0f0f0] px-4 py-2.5 w-full"
+                           placeholder="example@gmail.com" required>
+                </div>
+
+                <div class="mb-4">
+                    <p class="text-sm text-zinc-500 mb-2">رمز عبور:</p>
+                    <input type="password" name="password"
+                           class="rounded-xl text-zinc-600 bg-[#f0f0f0] px-4 py-2.5 w-full" placeholder="••••••••"
+                           required>
+                </div>
+
+                <div class="mb-4">
+                    <p class="text-sm text-zinc-500 mb-2">تکرار رمز عبور:</p>
+                    <input type="password" name="password_confirm"
+                           class="rounded-xl text-zinc-600 bg-[#f0f0f0] px-4 py-2.5 w-full" placeholder="••••••••"
+                           required>
+                </div>
+
+                <button type="submit"
+                        class="w-full bg-gradient-to-bl from-primary-500 to-primary-400 hover:opacity-90 rounded-2xl py-3 text-white">
+                    ثبت نام
+                </button>
+
+                <div class="text-center mt-4 text-sm text-zinc-500">
+                    قبلاً ثبت نام کرده‌اید؟
+                    <a href="#" onclick="showLogin()" class="text-primary-500 hover:underline">ورود</a>
+                </div>
+            </form>
         </div>
     </div>
 </header>

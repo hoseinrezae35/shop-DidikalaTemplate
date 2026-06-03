@@ -1,0 +1,41 @@
+{% if messages or form.errors %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            {% for message in messages %}
+                Toastify({
+                    text: `{{ message|escapejs }}`,
+                    className: `toastify-{{ message.tags }}`,
+                    style: {
+                        background: "{% if message.tags == 'error' %}#dc3545{% elif message.tags == 'success' %}#28a745{% elif message.tags == 'warning' %}#ffc107{% else %}#007bff{% endif %}"
+                    },
+                    duration: 3000,
+                    close: true,
+                    gravity: "top",
+                    position: "right"
+                }).showToast();
+            {% endfor %}
+
+            {% for field in form %}
+                {% for error in field.errors %}
+                    Toastify({
+                        text: `{{ error|escapejs }}`,
+                        className: "toastify-error",
+                        style: {background: "#dc3545"},
+                        duration: 3000,
+                        close: true
+                    }).showToast();
+                {% endfor %}
+            {% endfor %}
+
+            {% if form.non_field_errors %}
+                Toastify({
+                    text: `{{ form.non_field_errors|striptags|escapejs }}`,
+                    className: "toastify-error",
+                    style: {background: "#dc3545"},
+                    duration: 3000,
+                    close: true
+                }).showToast();
+            {% endif %}
+        });
+    </script>
+{% endif %}

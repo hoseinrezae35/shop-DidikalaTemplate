@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/x-icon" href="{% static 'image\fav.png' %}' %}">
-
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js@1.12.0/src/toastify.min.css">
     <link rel="stylesheet" href="{% static 'css\main.css' %}">
 
     {% block extra_css %}  {% endblock %}
@@ -49,9 +49,113 @@
 
 </body>
 
-{% block extra_js %}  {% endblock %}
+
 <script src="{% static 'js\swiper.min.js' %}"></script>
 <script src="{% static 'js\sliders.js' %}"></script>
 <script src="{% static 'js\main.js' %}"></script>
+<script src="https://cdn.jsdelivr.net/npm/toastify-js@1.12.0/src/toastify.min.js"></script>
+<script>
+    const modal1 = document.getElementById('modal1');
+    const modal2 = document.getElementById('modal2');
+    const modalBox1 = document.querySelector('#modal1 .modal-box');
+    const modalBox2 = document.querySelector('#modal2 .modal-box');
 
+    function openModal() {
+        modal1.classList.remove('hidden');
+        modal1.classList.add('flex');
+        setTimeout(() => {
+            if(modalBox1) modalBox1.classList.remove('opacity-0', 'scale-90');
+            if(modalBox1) modalBox1.classList.add('opacity-100', 'scale-100');
+        }, 10);
+    }
+
+    function showRegister() {
+        modal2.classList.remove('hidden');
+        modal2.classList.add('flex');
+        setTimeout(() => {
+            if(modalBox2) modalBox2.classList.remove('opacity-0', 'scale-90');
+            if(modalBox2) modalBox2.classList.add('opacity-100', 'scale-100');
+        }, 10);
+    }
+
+    function showLogin() {
+        closeModal2();
+        modal1.classList.remove('hidden');
+        modal1.classList.add('flex');
+        setTimeout(() => {
+            if(modalBox1) modalBox1.classList.remove('opacity-0', 'scale-90');
+            if(modalBox1) modalBox1.classList.add('opacity-100', 'scale-100');
+        }, 10);
+    }
+
+    function closeModal1() {
+        if(modalBox1) {
+            modalBox1.classList.remove('opacity-100', 'scale-100');
+            modalBox1.classList.add('opacity-0', 'scale-90');
+        }
+        setTimeout(() => {
+            modal1.classList.add('hidden');
+            modal1.classList.remove('flex');
+        }, 300);
+    }
+
+    function closeModal2() {
+        if(modalBox2) {
+            modalBox2.classList.remove('opacity-100', 'scale-100');
+            modalBox2.classList.add('opacity-0', 'scale-90');
+        }
+        setTimeout(() => {
+            modal2.classList.add('hidden');
+            modal2.classList.remove('flex');
+        }, 300);
+    }
+
+    modal1.addEventListener('click', function(e) {
+        if (e.target === modal1) closeModal1();
+    });
+    modal2.addEventListener('click', function(e) {
+        if (e.target === modal2) closeModal2();
+    });
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const modalParam = urlParams.get('modal');
+
+
+    if (modalParam === 'register') {
+        showRegister();
+
+        const url = new URL(window.location.href);
+        url.searchParams.delete('modal');
+        window.history.replaceState({}, '', url);
+    } else if (modalParam === 'open' || modalParam === 'login') {
+        openModal();
+
+        const url = new URL(window.location.href);
+        url.searchParams.delete('modal');
+        window.history.replaceState({}, '', url);
+    } else {
+
+        let hasLoginError = false;
+        {% for message in messages %}
+            if ("{{ message.tags }}" === "error") {
+
+                const messageText = "{{ message }}";
+                if (messageText.includes('ایمیل') || messageText.includes('رمز') || messageText.includes('ثبت نام')) {
+
+                    if (messageText.includes('ثبت نام') || messageText.includes('قبلاً') || messageText.includes('تکرار')) {
+                        showRegister();
+                    } else {
+                        openModal();
+                    }
+                } else {
+                    openModal();
+                }
+            }
+        {% endfor %}
+    }
+</script>
+
+{% include 'messages.html' %}
+
+{% block extra_js %}  {% endblock %}
 </html>
