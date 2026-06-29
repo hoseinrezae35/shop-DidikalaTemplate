@@ -1,0 +1,297 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block content %}
+    <div class="flex flex-col lg:flex-row px-4 md:px-8 md:mt-10 gap-5 pb-20">
+        <!-- filters -->
+        <div class="lg:w-3/12 space-y-5">
+            <div class="border border-zinc-100 h-fit rounded-2xl py-2 hover:shadow-sm transition-all">
+                <button class="menu-toggle flex justify-between w-full py-3 px-4 rounded-2xl cursor-pointer">
+                    <span class="text-zinc-700 text-sm">دسته بندی</span>
+                    <img class="w-4 transition-transform opacity-80" src="{% static 'image/icons/arrowDown.svg' %}"
+                         alt="">
+                </button>
+                <ul class="submenu hidden mt-2">
+                    {% for cat in category %}
+                        <li>
+                            {% if cat.children.exists %}
+                                <button class="menu-toggle text-xs flex justify-between w-full py-2 px-4 text-zinc-700">
+                                    <span>{{ cat.name }}</span>
+                                    <img class="w-3 transition-transform opacity-60"
+                                         src="{% static 'image/icons/arrowDown.svg' %}" alt="">
+                                </button>
+                                <ul class="submenu hidden mr-4">
+                                    {% for child in cat.children.all %}
+                                        {% if child.is_active %}
+                                            <li>
+                                                <a href="?{% if query_string %}
+                                                    {{ query_string }}&{% endif %}category={{ child.slug }}"
+                                                   class="text-xs block py-2 px-4 transition {% if request.GET.category == child.slug %}text-primary-500 font-medium{% else %}text-zinc-500 hover:text-primary-500{% endif %}">
+                                                    {{ child.name }}
+                                                </a>
+                                            </li>
+                                        {% endif %}
+                                    {% endfor %}
+                                </ul>
+                            {% else %}
+                                <a href="?{% if query_string %}{{ query_string }}&{% endif %}category={{ cat.slug }}"
+                                   class="text-xs flex w-full py-2 px-4 transition {% if request.GET.category == cat.slug %}text-primary-500 font-medium{% else %}text-zinc-700 hover:text-primary-500{% endif %}">
+                                    {{ cat.name }}
+                                </a>
+                            {% endif %}
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="border border-zinc-100 h-fit rounded-2xl py-2 hover:shadow-sm transition-all">
+                <button class="menu-toggle flex justify-between w-full py-3 px-4 rounded-2xl cursor-pointer">
+                    <span class="text-zinc-700 text-sm">فیلتر بر اساس قیمت</span>
+                    <img class="w-4 transition-transform opacity-80" src="{% static 'image/icons/arrowDown.svg' %}"
+                         alt="">
+                </button>
+                <ul class="submenu hidden mt-2">
+                    <div class="space-y-4 px-6">
+                        <div id="shop-price-slider"></div>
+                        <div class="flex items-center justify-between">
+                            <div class="text-red-400">
+                                <span class="text-xs font-semibold xl:text-sm" id="shop-price-slider-min"></span>
+                                <span class="text-xs">تومان</span>
+                            </div>
+                            <div class="text-red-400">
+                                <span class="text-xs font-semibold xl:text-sm" id="shop-price-slider-max"></span>
+                                <span class="text-xs">تومان</span>
+                            </div>
+                        </div>
+                    </div>
+                </ul>
+            </div>
+            <label class="border border-zinc-100 h-fit rounded-2xl hover:shadow-sm transition-all flex justify-between w-full py-5 px-4 cursor-pointer"
+                   for="onlyAvailableDesktop">
+                <div class="text-zinc-700 text-sm">
+                    فقط کالا های موجود
+                </div>
+                <div class="relative inline-flex cursor-pointer items-center">
+                    <input class="peer sr-only" id="onlyAvailableDesktop" type="checkbox"
+                           {% if request.GET.only_available %}checked{% endif %}
+                           onchange="toggleOnlyAvailable(this)">
+                    <div class="peer h-6 w-11 rounded-full bg-gray-200 after:absolute after:left-[2px] after:top-0.5 after:h-5 after:w-5 after:rounded-full after:bg-white after:transition-all after:content-[''] peer-checked:bg-primary-400 peer-checked:after:translate-x-full peer-focus:ring-primary-400"></div>
+                </div>
+            </label>
+        </div>
+        <!-- products -->
+        <div class="lg:w-9/12">
+            <div class="flex flex-wrap gap-3 md:gap-5 justify-start items-center bg-white shadow-box-sm rounded-3xl px-5 py-6 border border-zinc-100 mb-5">
+                <div class="text-zinc-600 text-sm">
+                    مرتب سازی:
+                </div>
+
+                <a href="?sort=all_product"
+                   class="text-xs transition cursor-pointer {% if not request.GET.sort or request.GET.sort == 'all_product' %}text-primary-500{% else %}text-zinc-500 hover:text-primary-400{% endif %}">
+                    تمام محصولات
+                </a>
+
+                <a href="?sort=bestseller"
+                   class="text-xs transition cursor-pointer {% if request.GET.sort == 'bestseller' %}text-primary-500{% else %}text-zinc-500 hover:text-primary-400{% endif %}">
+                    پرفروش ترین
+                </a>
+
+                <a href="?sort=cheapest"
+                   class="text-xs transition cursor-pointer {% if request.GET.sort == 'cheapest' %}text-primary-500{% else %}text-zinc-500 hover:text-primary-400{% endif %}">
+                    ارزان ترین
+                </a>
+
+                <a href="?sort=expensive"
+                   class="text-xs transition cursor-pointer {% if request.GET.sort == 'expensive' %}text-primary-500{% else %}text-zinc-500 hover:text-primary-400{% endif %}">
+                    گران ترین
+                </a>
+
+                <a href="?sort=newest"
+                   class="text-xs transition cursor-pointer {% if request.GET.sort == 'newest' %}text-primary-500{% else %}text-zinc-500 hover:text-primary-400{% endif %}">
+                    جدیدترین
+                </a>
+            </div>
+            <div class="grid grid-cols-2 lg:grid-cols-3 gap-3">
+                {% for object in object_list %}
+                    <div class="p-2 md:p-4 hover:border-transparent hover:shadow-lg transition-shadow rounded-3xl border border-zinc-100 relative">
+                        <a href="#">
+                            <svg class="absolute right-2 top-2 bg-white hover:bg-primary-500 hover:fill-white transition-all rounded-full p-2 border border-zinc-300 size-9"
+                                 xmlns="http://www.w3.org/2000/svg" width="" height="" fill="#000000"
+                                 viewbox="0 0 256 256">
+                                <path d="M178,32c-20.65,0-38.73,8.88-50,23.89C116.73,40.88,98.65,32,78,32A62.07,62.07,0,0,0,16,94c0,70,103.79,126.66,108.21,129a8,8,0,0,0,7.58,0C136.21,220.66,240,164,240,94A62.07,62.07,0,0,0,178,32ZM128,206.8C109.74,196.16,32,147.69,32,94A46.06,46.06,0,0,1,78,48c19.45,0,35.78,10.36,42.6,27a8,8,0,0,0,14.8,0c6.82-16.67,23.15-27,42.6-27a46.06,46.06,0,0,1,46,46C224,147.61,146.24,196.15,128,206.8Z"></path>
+                            </svg>
+                        </a>
+                        <a href="#" class="image-box mb-6 block py-10">
+                            {% for img in object.images.all %}
+                                {% if img.is_primary %}
+                                    <img class="max-w-28 md:max-w-40 mx-auto" src="{{ img.image.url }}"
+                                         alt="">
+                                {% endif %}
+                            {% endfor %}
+                        </a>
+                        <a href="./single-product.html"
+                           class="text-xs md:text-sm font-semibold text-zinc-700 h-10 line-clamp-2">
+                            {{ object.name }}
+                        </a>
+                        <div class="border-b-2 border-dashed border-zinc-200 my-5 w-full h-auto"></div>
+                        <div class="flex justify-between items-center">
+                            {% if object.none_stock %}
+                                <a href=""
+                                   class="group/edit bg-primary-500 hover:bg-primary-400 px-3 md:px-2.5 py-2.5 rounded-xl shadow-lg transition-all">
+                                    <svg class="stroke-white" width="24" height="24" viewbox="0 0 24 24" fill="none"
+                                         xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M3.86399 16.455C4.40999 18.638 4.68299 19.729 5.49599 20.365C6.30999 21 7.43499 21 9.68499 21H14.315C16.565 21 17.69 21 18.505 20.365C19.318 19.729 19.591 18.638 20.136 16.455C20.994 13.023 21.423 11.308 20.523 10.154C19.622 9 17.853 9 14.316 9H9.68499C6.14699 9 4.37899 9 3.47799 10.154C2.94899 10.831 2.87799 11.702 3.08399 13"
+                                              stroke="#" stroke-width="1.5" stroke-linecap="round"></path>
+                                        <path d="M19.5 9.5L18.79 6.895C18.516 5.89 18.379 5.388 18.098 5.009C17.8178 4.63246 17.4373 4.3424 17 4.172C16.56 4 16.04 4 15 4M4.5 9.5L5.21 6.895C5.484 5.89 5.621 5.388 5.902 5.009C6.18218 4.63246 6.56269 4.3424 7 4.172C7.44 4 7.96 4 9 4"
+                                              stroke="#" stroke-width="1.5"></path>
+                                        <path d="M9 4C9 3.73478 9.10536 3.48043 9.29289 3.29289C9.48043 3.10536 9.73478 3 10 3H14C14.2652 3 14.5196 3.10536 14.7071 3.29289C14.8946 3.48043 15 3.73478 15 4C15 4.26522 14.8946 4.51957 14.7071 4.70711C14.5196 4.89464 14.2652 5 14 5H10C9.73478 5 9.48043 4.89464 9.29289 4.70711C9.10536 4.51957 9 4.26522 9 4Z"
+                                              stroke="#" stroke-width="1.5"></path>
+                                    </svg>
+                                </a>
+                            {% else %}
+                                ناموجود
+                            {% endif %}
+                            <div class="flex">
+                                <div class="text-base md:text-xl">{{ object.price }}</div>
+                                <div class="-rotate-90 text-zinc-400 text-xs md:text-sm">
+                                    تومان
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% empty %}
+                    محصولی موجود نیست !
+                {% endfor %}
+
+
+            </div>
+        </div>
+    </div>
+    <!-- pagination -->
+    {% if is_paginated %}
+        <div class="flex justify-center mb-12">
+
+            {% if page_obj.has_previous %}
+                <a href="?{% if query_string %}{{ query_string }}&{% endif %}page={{ page_obj.previous_page_number }}"
+                   class="flex items-center justify-center px-3.5 md:px-4 py-2 mx-1 text-gray-700 transition-colors duration-300 transform bg-white rounded-md -scale-x-100 hover:bg-primary-500 hover:text-white">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="size-4 md:size-5" viewbox="0 0 20 20"
+                         fill="currentColor">
+                        <path fill-rule="evenodd"
+                              d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
+                              clip-rule="evenodd"></path>
+                    </svg>
+                </a>
+            {% else %}
+                <span class="flex items-center justify-center px-3.5 md:px-4 py-2 mx-1 text-gray-300 -scale-x-100 cursor-not-allowed">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="size-4 md:size-5" viewbox="0 0 20 20"
+                         fill="currentColor">
+                        <path fill-rule="evenodd"
+                              d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
+                              clip-rule="evenodd"></path>
+                    </svg>
+                </span>
+            {% endif %}
+
+            {% for num in page_obj.paginator.page_range %}
+                {% if num == page_obj.number %}
+                    <a href="?{% if query_string %}{{ query_string }}&{% endif %}page={{ num }}"
+                       class="border border-zinc-100 text-sm md:text-base px-3.5 md:px-4 py-2 mx-1 transition-colors duration-300 transform bg-primary-500 text-white rounded-md">
+                        {{ num }}
+                    </a>
+                {% elif num == 1 or num == page_obj.paginator.num_pages or num >= page_obj.number|add:'-2' and num <= page_obj.number|add:'2' %}
+                    <a href="?{% if query_string %}{{ query_string }}&{% endif %}page={{ num }}"
+                       class="border border-zinc-100 text-sm md:text-base px-3.5 md:px-4 py-2 mx-1 text-gray-700 transition-colors duration-300 transform bg-white rounded-md hover:bg-primary-500 hover:text-white">
+                        {{ num }}
+                    </a>
+                {% elif num == 2 or num == page_obj.paginator.num_pages|add:'-1' %}
+                    <span class="border border-zinc-100 text-sm md:text-base px-3.5 md:px-4 py-2 mx-1 text-gray-700 bg-white rounded-md">
+                        ...
+                    </span>
+                {% endif %}
+            {% endfor %}
+
+            {% if page_obj.has_next %}
+                <a href="?{% if query_string %}{{ query_string }}&{% endif %}page={{ page_obj.next_page_number }}"
+                   class="flex items-center justify-center px-3.5 md:px-4 py-2 mx-1 text-gray-700 transition-colors duration-300 transform bg-white rounded-md -scale-x-100 hover:bg-primary-500 hover:text-white">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="size-4 md:size-5" viewbox="0 0 20 20"
+                         fill="currentColor">
+                        <path fill-rule="evenodd"
+                              d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                              clip-rule="evenodd"></path>
+                    </svg>
+                </a>
+            {% else %}
+                <span class="flex items-center justify-center px-3.5 md:px-4 py-2 mx-1 text-gray-300 -scale-x-100 cursor-not-allowed">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="size-4 md:size-5" viewbox="0 0 20 20"
+                         fill="currentColor">
+                        <path fill-rule="evenodd"
+                              d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                              clip-rule="evenodd"></path>
+                    </svg>
+                </span>
+            {% endif %}
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block extra_js %}
+    <script>
+        function toggleOnlyAvailable(checkbox) {
+            const url = new URL(window.location.href);
+            if (checkbox.checked) {
+                url.searchParams.set('only_available', '1');
+            } else {
+                url.searchParams.delete('only_available');
+            }
+            url.searchParams.delete('page');
+            window.location.href = url.toString();
+        }
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            function initPriceFilter() {
+                const slider = document.getElementById('shop-price-slider');
+
+                if (!slider || !slider.noUiSlider) {
+                    // اگه main.js هنوز اسلایدر رو نساخته، کمی صبر کن و دوباره چک کن
+                    setTimeout(initPriceFilter, 100);
+                    return;
+                }
+
+                const minLabel = document.getElementById('shop-price-slider-min');
+                const maxLabel = document.getElementById('shop-price-slider-max');
+
+                const urlParams = new URLSearchParams(window.location.search);
+                const currentMin = urlParams.get('min_price');
+                const currentMax = urlParams.get('max_price');
+
+                if (currentMin || currentMax) {
+                    slider.noUiSlider.set([
+                        currentMin || 0,
+                        currentMax || 100000000
+                    ]);
+                }
+
+                slider.noUiSlider.on('update', function (values) {
+                    minLabel.textContent = values[0];
+                    maxLabel.textContent = values[1];
+                });
+
+                slider.noUiSlider.on('change', function (values) {
+                    const rawMin = values[0].replace(/,/g, '');
+                    const rawMax = values[1].replace(/,/g, '');
+
+                    const url = new URL(window.location.href);
+                    url.searchParams.set('min_price', rawMin);
+                    url.searchParams.set('max_price', rawMax);
+                    url.searchParams.delete('page');
+                    window.location.href = url.toString();
+                });
+            }
+
+            initPriceFilter();
+        });
+    </script>
+
+{% endblock %}

@@ -21,7 +21,9 @@ INSTALLED_APPS = [
 
     # my_app
     'home.apps.HomeConfig',
-    'accounts.apps.AccountsConfig'
+    'accounts.apps.AccountsConfig',
+    'shop.apps.ShopConfig',
+
 ]
 
 MIDDLEWARE = [

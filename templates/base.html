@@ -6,9 +6,14 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/x-icon" href="{% static 'image\fav.png' %}' %}">
+    <link rel="icon" type="image/x-icon" href="{% static 'image/fav.png' %}' %}">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js@1.12.0/src/toastify.min.css">
-    <link rel="stylesheet" href="{% static 'css\main.css' %}">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'css/nouislider.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/font.css' %}">
+    <link rel="stylesheet" href="{% static 'css/output.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/swiper.min.css' %}">
 
     {% block extra_css %}  {% endblock %}
 
@@ -29,7 +34,7 @@
         <div class="shadow"></div>
     </div>
     <div class="flex items-center gap-6 mt-10">
-        <img class="max-w-20 md:max-w-36" src="{% static 'image\logo.png' %}" alt="">
+        <img class="max-w-20 md:max-w-36" src="{% static 'image/logo.png' %}" alt="">
         <div class="text-xl md:text-3xl font-yekanBakhExtraBold text-zinc-800">فروشگاه آنلاین دیجیتو</div>
     </div>
 </div>
@@ -50,10 +55,11 @@
 </body>
 
 
-<script src="{% static 'js\swiper.min.js' %}"></script>
-<script src="{% static 'js\sliders.js' %}"></script>
-<script src="{% static 'js\main.js' %}"></script>
 <script src="https://cdn.jsdelivr.net/npm/toastify-js@1.12.0/src/toastify.min.js"></script>
+<script src="{% static 'js/swiper.min.js' %}"></script>
+<script src="{% static 'js/sliders.js' %}"></script>
+<script src="{% static 'js/nouislider.min.js' %}"></script>
+<script src="{% static 'js/main.js' %}"></script>
 <script>
     const modal1 = document.getElementById('modal1');
     const modal2 = document.getElementById('modal2');
@@ -64,8 +70,8 @@
         modal1.classList.remove('hidden');
         modal1.classList.add('flex');
         setTimeout(() => {
-            if(modalBox1) modalBox1.classList.remove('opacity-0', 'scale-90');
-            if(modalBox1) modalBox1.classList.add('opacity-100', 'scale-100');
+            if (modalBox1) modalBox1.classList.remove('opacity-0', 'scale-90');
+            if (modalBox1) modalBox1.classList.add('opacity-100', 'scale-100');
         }, 10);
     }
 
@@ -73,8 +79,8 @@
         modal2.classList.remove('hidden');
         modal2.classList.add('flex');
         setTimeout(() => {
-            if(modalBox2) modalBox2.classList.remove('opacity-0', 'scale-90');
-            if(modalBox2) modalBox2.classList.add('opacity-100', 'scale-100');
+            if (modalBox2) modalBox2.classList.remove('opacity-0', 'scale-90');
+            if (modalBox2) modalBox2.classList.add('opacity-100', 'scale-100');
         }, 10);
     }
 
@@ -83,13 +89,13 @@
         modal1.classList.remove('hidden');
         modal1.classList.add('flex');
         setTimeout(() => {
-            if(modalBox1) modalBox1.classList.remove('opacity-0', 'scale-90');
-            if(modalBox1) modalBox1.classList.add('opacity-100', 'scale-100');
+            if (modalBox1) modalBox1.classList.remove('opacity-0', 'scale-90');
+            if (modalBox1) modalBox1.classList.add('opacity-100', 'scale-100');
         }, 10);
     }
 
     function closeModal1() {
-        if(modalBox1) {
+        if (modalBox1) {
             modalBox1.classList.remove('opacity-100', 'scale-100');
             modalBox1.classList.add('opacity-0', 'scale-90');
         }
@@ -100,7 +106,7 @@
     }
 
     function closeModal2() {
-        if(modalBox2) {
+        if (modalBox2) {
             modalBox2.classList.remove('opacity-100', 'scale-100');
             modalBox2.classList.add('opacity-0', 'scale-90');
         }
@@ -110,10 +116,10 @@
         }, 300);
     }
 
-    modal1.addEventListener('click', function(e) {
+    modal1.addEventListener('click', function (e) {
         if (e.target === modal1) closeModal1();
     });
-    modal2.addEventListener('click', function(e) {
+    modal2.addEventListener('click', function (e) {
         if (e.target === modal2) closeModal2();
     });
 
