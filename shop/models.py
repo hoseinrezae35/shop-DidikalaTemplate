@@ -23,11 +23,55 @@ class Category(models.Model):
         ordering = ['-created_at']
 
     def get_descendant_ids(self):
+        all_categories = Category.objects.values('id', 'parent_id')
 
-        ids = [self.id]
-        for child in self.children.all():
-            ids.extend(child.get_descendant_ids())
-        return ids
+        children_map = {}
+        for cat in all_categories:
+            children_map.setdefault(cat['parent_id'], []).append(cat['id'])
+
+        result = [self.id]
+        stack = [self.id]
+        while stack:
+            current_id = stack.pop()
+            children_ids = children_map.get(current_id, [])
+            result.extend(children_ids)
+            stack.extend(children_ids)
+
+        return result
+
+    def get_ancestors(self, include_self=True):
+        """
+        لیست دسته‌ها رو از ریشه (بالاترین سطح) تا خود دسته برمی‌گردونه
+        """
+        ancestors = []
+        node = self if include_self else self.parent
+        while node:
+            ancestors.append(node)
+            node = node.parent
+        return list(reversed(ancestors))
+
+    @classmethod
+    def get_menu_tree(cls):
+        """
+        کل دسته‌بندی‌های فعال رو با یک کوئری می‌خونه
+        و به صورت درخت (nested) برمی‌گردونه.
+        """
+        categories = list(
+            cls.objects.filter(is_active=True).only('id', 'name', 'slug', 'parent_id')
+        )
+
+        children_map = {}
+        for cat in categories:
+            children_map.setdefault(cat.parent_id, []).append(cat)
+
+        def attach_children(cat):
+            cat.children_list = children_map.get(cat.id, [])
+            for child in cat.children_list:
+                attach_children(child)
+            return cat
+
+        roots = children_map.get(None, [])
+        return [attach_children(root) for root in roots]
 
     def save(self, *args, **kwargs):
         if not self.slug:
@@ -35,7 +79,7 @@ class Category(models.Model):
         super().save(*args, **kwargs)
 
     def get_absolute_url(self):
-        return reverse('products:category_detail', args=[self.slug])
+        return reverse('shop:category-detail', args=[self.id])
 
     def __str__(self):
         return self.name
@@ -102,7 +146,7 @@ class Product(models.Model):
         super().save(*args, **kwargs)
 
     def get_absolute_url(self):
-        return reverse('products:product_detail', args=[self.category.slug, self.slug])
+        return reverse('shop:product-detail', args=[self.category.id, self.id])
 
     @property
     def none_stock(self):

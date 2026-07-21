@@ -1,4 +1,5 @@
 from pathlib import Path
+
 from decouple import config, Csv
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -48,6 +49,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'shop.context_processors.category_menu',
             ],
         },
     },

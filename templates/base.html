@@ -160,6 +160,24 @@
         {% endfor %}
     }
 </script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const categoryItems = document.querySelectorAll('.category-item');
+        const panels = document.querySelectorAll('.subcategory-panel');
+
+        categoryItems.forEach(function (item) {
+            item.addEventListener('mouseenter', function () {
+                categoryItems.forEach(i => i.classList.remove('active-category'));
+                item.classList.add('active-category');
+
+                const targetId = item.dataset.category;
+                panels.forEach(function (panel) {
+                    panel.style.display = (panel.dataset.panel === targetId) ? 'contents' : 'none';
+                });
+            });
+        });
+    });
+</script>
 
 {% include 'messages.html' %}
 
