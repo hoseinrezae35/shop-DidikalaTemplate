@@ -146,7 +146,7 @@ class Product(models.Model):
         super().save(*args, **kwargs)
 
     def get_absolute_url(self):
-        return reverse('shop:product-detail', args=[self.category.id, self.id])
+        return reverse('shop:product-detail', args=[self.id])
 
     @property
     def none_stock(self):
