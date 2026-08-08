@@ -1,5 +1,4 @@
 from django.db.models import Q
-from django.db.models.sql import query
 from django.shortcuts import get_object_or_404
 from django.views.generic import ListView, DetailView
 
@@ -25,13 +24,20 @@ class ProductListView(ListView):
     def get_queryset(self):
         queryset = Product.objects.filter(is_available=True)
 
-        if search_q := self.request.GET.get('q'):
+        search_q = self.request.GET.get("q", "").strip()
+
+        if search_q:
+            category_ids = Category.search_category_ids(search_q)
             queryset = queryset.filter(
+
                 Q(name__icontains=search_q) |
-                Q(description__icontains=search_q) |
                 Q(short_description__icontains=search_q) |
-                Q(category__name__icontains=search_q)
-            )
+                Q(description__icontains=search_q) |
+                Q(sku__icontains=search_q) |
+                Q(category__name__icontains=search_q) |
+                Q(category_id__in=category_ids)
+
+            ).distinct()
 
         if min_price := self.request.GET.get('min_price'):
             try:
@@ -58,6 +64,8 @@ class ProductListView(ListView):
 
         if sort == 'bestseller':
             queryset = queryset.filter(is_bestseller=True)
+        if sort == 'featured':
+            queryset = queryset.filter(is_featured=True)
         elif sort == 'cheapest':
             queryset = queryset.order_by('price')
         elif sort == 'expensive':
@@ -88,7 +96,7 @@ class CategoryDetailView(ListView):
     def get_queryset(self):
         category = get_object_or_404(Category, id=self.kwargs["pk"])
 
-        queryset =  Product.objects.filter(
+        queryset = Product.objects.filter(
             category_id__in=category.get_descendant_ids(),
             is_available=True,
         )

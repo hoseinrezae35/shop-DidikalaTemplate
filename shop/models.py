@@ -39,6 +39,16 @@ class Category(models.Model):
 
         return result
 
+    @classmethod
+    def search_category_ids(cls, keyword):
+
+        ids = []
+
+        for category in cls.objects.filter(name__icontains=keyword):
+            ids.extend(category.get_descendant_ids())
+
+        return list(set(ids))
+
     def get_ancestors(self, include_self=True):
         """
         لیست دسته‌ها رو از ریشه (بالاترین سطح) تا خود دسته برمی‌گردونه
@@ -178,7 +188,7 @@ class Product(models.Model):
                 return first_qs.image.url
         except:
             pass
-        return '/static/images/no-image.png'
+        return '/static/image/no-image.png'
 
     def __str__(self):
         return self.name

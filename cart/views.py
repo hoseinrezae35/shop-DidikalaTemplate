@@ -142,3 +142,51 @@ class SessionCartSummaryView(TemplateView):
         context["total_payment_price"] = cart.get_total_payment_amount()
 
         return context
+
+
+class CheckCartView(View):
+
+    def post(self, request):
+
+        cart = CartSession(request.session)
+
+        if cart.get_total_quantity() == 0:
+            return JsonResponse({
+                "success": False,
+                "empty_cart": True,
+                "message": "سبد خرید شما خالی است."
+            })
+
+        errors = []
+
+        for item in cart.get_cart_item():
+
+            product = item["product_obj"]
+            quantity = item["quantity"]
+
+            if not product.is_available:
+                errors.append(
+                    f'محصول "{product.name}" دیگر قابل سفارش نیست.'
+                )
+                continue
+
+            if product.stock == 0:
+                errors.append(
+                    f'محصول "{product.name}" ناموجود است.'
+                )
+                continue
+
+            if quantity > product.stock:
+                errors.append(
+                    f'برای محصول "{product.name}" فقط {product.stock} عدد موجود است.'
+                )
+
+        if errors:
+            return JsonResponse({
+                "success": False,
+                "errors": errors
+            })
+
+        return JsonResponse({
+            "success": True
+        })

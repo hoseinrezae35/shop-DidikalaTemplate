@@ -1,0 +1,40 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="{% static 'image/fav.png' %}">
+
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+
+    <title>داشبرد کاربر</title>
+</head>
+
+<body class="max-w-[1700px] mx-auto bg-zinc-100 flex flex-col min-h-screen relative">
+
+<!-- bg blur mobile -->
+<div id="overlay" class="fixed z-10 inset-0 bg-black/35 hidden transition-opacity duration-300"></div>
+<!-- Sidebar -->
+{% include 'dashboard/include/navbar.html' %}
+<div class="w-full lg:w-[83%] mr-auto flex flex-col min-h-screen">
+    <!-- header -->
+    {% include 'dashboard/include/header.html' %}
+    <main class="p-6 flex-1 overflow-y-auto">
+        {% block content %}
+
+        {% endblock %}
+    </main>
+    <footer class="bg-white h-12 flex items-center justify-end px-5 w-full text-zinc-500 text-xs shrink-0">
+        تمامی حقوق توسط تیم برنامه نویسی امیران محفوظ است.
+    </footer>
+</div>
+
+</body>
+
+<script src="{% static 'js/swiper.min.js' %}"></script>
+<script src="{% static 'js/sliders.js' %}"></script>
+<script src="{% static 'js/main.js' %}"></script>
+
+</html>

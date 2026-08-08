@@ -17,18 +17,22 @@
                 <div class="p-5 flex flex-col gap-y-3 justify-center items-center">
                     <!-- logo -->
                     <a href="/">
-                        <img src="{% static '\image\logo.png' %}' %}" class="max-w-24 md:max-w-32 h-fit" alt="">
+                        <img src="{% static '/image/logo.png' %}' %}" class="max-w-24 md:max-w-32 h-fit" alt="">
                     </a>
                     <!-- seacrh -->
-                    <div class="relative block">
-                        <input class="rounded-full text-zinc-600 bg-[#f0f0f0] px-5 py-2.5 w-64 text-sm placeholder:text-zinc-400 placeholder:text-sm focus:outline-0"
-                               type="text" placeholder="جستجو...">
-                        <a href="#">
-                            <img class="top-3 absolute left-3 size-4"
-                                 src="{% static 'image\icons\lineicons_search-1.svg' %}"
-                                 alt="">
-                        </a>
-                    </div>
+                    <form action="{% url 'shop:product-list' %}" method="get" class="relative block">
+                        <div class="relative block">
+                            <input class="rounded-full text-zinc-600 bg-[#f0f0f0] px-5 py-2.5 w-64 text-sm placeholder:text-zinc-400 placeholder:text-sm focus:outline-0"
+                                   type="text" placeholder="جستجو..."
+                                   name="q"
+                                   value="{{ request.GET.q }}">
+                            <button type="submit">
+                                <img class="top-3 absolute left-3 size-4"
+                                     src="{% static 'image/icons/lineicons_search-1.svg' %}"
+                                     alt="جستجو...">
+                            </button>
+                        </div>
+                    </form>
                 </div>
                 <ul class="p-5 space-y-1 text-sm text-zinc-800 h-screen overflow-y-auto pb-48">
                     <li>
@@ -47,7 +51,8 @@
                         </a>
                     </li>
                     <li>
-                        <a href="#" class="py-3 px-4 hover:bg-gray-100 rounded-lg flex gap-x-2">
+                        <a href="{% url 'shop:product-list' %}?sort=featured"
+                           class="py-3 px-4 hover:bg-gray-100 rounded-lg flex gap-x-2">
                             <svg width="18" height="18" viewbox="0 0 24 24" fill="none"
                                  xmlns="http://www.w3.org/2000/svg">
                                 <path d="M9.144 2.5C6.487 2.56 4.935 2.815 3.874 3.875C2.813 4.935 2.562 6.487 2.5 9.145M14.856 2.5C17.513 2.56 19.065 2.815 20.126 3.875C21.187 4.935 21.439 6.487 21.5 9.145M14.856 21.5C17.513 21.44 19.065 21.185 20.126 20.125C21.187 19.065 21.439 17.513 21.5 14.855M9.144 21.5C6.487 21.44 4.935 21.185 3.874 20.125C2.813 19.065 2.561 17.513 2.5 14.855M8 8H8.009M16 16H16.009M8 16L16 8"
@@ -98,26 +103,32 @@
                     </div>
                     <a href="tel:05144556677" class="text-primary-500 flex text-xs lg:text-base gap-x-1 items-start">
                         051-44556677
-                        <img class="w-3 lg:w-5" src="{% static 'image\icons\headphones.svg' %}" alt="">
+                        <img class="w-3 lg:w-5" src="{% static 'image/icons/headphones.svg' %}" alt="">
                     </a>
                 </div>
             </div>
             <!-- logo -->
             <a href="/">
-                <img src="{% static 'image\logo.png' %}" class="max-w-24 md:max-w-32 h-fit" alt="">
+                <img src="{% static 'image/logo.png' %}" class="max-w-24 md:max-w-32 h-fit" alt="">
             </a>
             <!-- empty -->
             <div class="md:hidden size-8">
             </div>
             <!-- seacrh -->
-            <div class="relative hidden md:block">
-                <input class="rounded-full text-zinc-600   bg-[#f0f0f0] px-5 py-2.5 w-80 placeholder:text-zinc-400 placeholder:text-sm focus:outline-0"
-                       type="text" placeholder="جستجو...">
-                <a href="#">
-                    <img class="top-2.5 absolute left-3 size-5" src="{% static 'image\icons\lineicons_search-1.svg' %}"
-                         alt="">
-                </a>
-            </div>
+
+            <form action="{% url 'shop:product-list' %}" method="get" class="relative block">
+                <div class="relative hidden md:block">
+                    <input class="rounded-full text-zinc-600 bg-[#f0f0f0] px-5 py-2.5 w-80 placeholder:text-zinc-400 placeholder:text-sm focus:outline-0"
+                           type="text" placeholder="جستجو..."
+                           name="q"
+                           value="{{ request.GET.q }}">
+                    <button type="submit">
+                        <img class="top-2.5 absolute left-3 size-5"
+                             src="{% static 'image/icons/lineicons_search-1.svg' %}"
+                             alt="جستجو ...">
+                    </button>
+                </div>
+            </form>
         </div>
         <div class="hidden md:flex items-center gap-x-2 lg:gap-x-3">
             <div class="text-zinc-600 text-xs lg:text-sm">
@@ -128,7 +139,7 @@
             </div>
             <a href="tel:05144556677" class="text-primary-500 flex text-xs lg:text-base gap-x-1 items-start">
                 051-44556677
-                <img class="w-3 lg:w-5" src="{% static 'image\icons\headphones.svg' %}" alt="">
+                <img class="w-3 lg:w-5" src="{% static 'image/icons/headphones.svg' %}" alt="">
             </a>
         </div>
         <svg class="hidden md:block absolute top-full md:right-4 lg:right-10" width="158" height="19"
@@ -212,7 +223,7 @@
                 </div>
             </div>
 
-            <a href="#" class="pt-1 flex gap-x-2 items-center group relative">
+            <a href="{% url 'shop:product-list' %}?sort=featured" class="pt-1 flex gap-x-2 items-center group relative">
                 <img class="mb-2 size-4.5" src="{% static 'image/icons/discount.svg' %}" alt="">
                 <li class="relative text-zinc-600 text-sm group-hover:text-primary-500 transition pb-2
             after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px]
@@ -262,7 +273,8 @@
             <a href="{% url 'cart:cart_list' %}"
                class="relative group border-2 border-primary-500 hover:shadow-lg hover:bg-zinc-200 transition rounded-xl p-2.5">
                 <img src="{% static "image/icons/cart.svg" %}" alt="سبد خرید" class="w-6 h-6">
-                <span id="total-cart-item-count" class="absolute -right-2 -top-2 flex size-6 drop-shadow-lg items-center justify-center rounded-full bg-white text-sm font-semibold text-primary-500">
+                <span id="total-cart-item-count"
+                      class="absolute -right-2 -top-2 flex size-6 drop-shadow-lg items-center justify-center rounded-full bg-white text-sm font-semibold text-primary-500">
                     {{ cart_count }}
                 </span>
             </a>
@@ -270,7 +282,7 @@
             {% if user.is_authenticated %}
                 <!-- نمایش برای کاربر لاگین شده -->
                 <div class="flex items-center gap-3">
-                    <a href="#"
+                    <a href="{% url 'dashboard:index' %}"
                        class="flex items-center gap-2 bg-gradient-to-bl from-primary-500 to-primary-400 hover:opacity-90 transition rounded-xl px-4 py-2 text-white">
                         <img src="{% static 'image/icons/user.svg' %}" class="size-5" alt="">
                     </a>

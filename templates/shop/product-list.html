@@ -114,7 +114,7 @@
             <div class="grid grid-cols-2 lg:grid-cols-3 gap-3">
                 {% for object in object_list %}
                     <div class="p-2 md:p-4 hover:border-transparent hover:shadow-lg transition-shadow rounded-3xl border border-zinc-100 relative">
-                        <a href="#">
+                        <a href="{% url 'shop:product-detail' pk=object.pk %}">
                             <svg class="absolute right-2 top-2 bg-white hover:bg-primary-500 hover:fill-white transition-all rounded-full p-2 border border-zinc-300 size-9"
                                  xmlns="http://www.w3.org/2000/svg" width="" height="" fill="#000000"
                                  viewbox="0 0 256 256">

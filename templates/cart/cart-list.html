@@ -145,10 +145,12 @@
                     </div>
                 </div>
             </div>
-            <a href=""
-               class="block bg-primary-500 hover:bg-primary-400 text-white text-center mt-10 px-5 md:px-2.5 py-3 md:py-4 rounded-xl shadow-lg transition-all font-yekanBakhBold md:text-lg">
+            <button type="button"
+                    id="checkout-btn"
+                    data-url="{% url 'cart:check_cart_stock' %}"
+                    class="block w-full bg-primary-500 hover:bg-primary-400 text-white text-center mt-10 px-5 md:px-2.5 py-3 md:py-4 rounded-xl shadow-lg transition-all font-yekanBakhBold md:text-lg">
                 ثبت و ادامه
-            </a>
+            </button>
         </div>
     </div>
 {% endblock %}
@@ -207,6 +209,111 @@
         $(document).on("click", ".decrease-quantity", function () {
             let productId = $(this).data("product-id");
             updateCart(productId, "decrease");
+        });
+    </script>
+    <script>
+        $(document).on("click", "#checkout-btn", function () {
+
+            $.ajax({
+
+                url: $(this).data("url"),
+
+                type: "POST",
+
+                data: {
+
+                    csrfmiddlewaretoken: "{{ csrf_token }}"
+
+                },
+
+                success: function (response) {
+
+                    if (response.success) {
+
+                        Toastify({
+
+                            text: "سبد خرید تأیید شد.",
+
+                            duration: 3000,
+
+                            gravity: "top",
+
+                            position: "right",
+
+                            backgroundColor: "#16a34a",
+
+                            close: true
+
+                        }).showToast();
+
+                        return;
+                    }
+
+                    if (response.empty_cart) {
+
+                        Toastify({
+
+                            text: response.message,
+
+                            duration: 3000,
+
+                            gravity: "top",
+
+                            position: "right",
+
+                            close: true,
+
+                            backgroundColor: "#f59e0b"
+
+                        }).showToast();
+
+                        return;
+                    }
+
+                    response.errors.forEach(function (error) {
+
+                        Toastify({
+
+                            text: error,
+
+                            duration: 3500,
+
+                            gravity: "top",
+
+                            position: "right",
+
+                            close: true,
+
+                            backgroundColor: "#ef4444"
+
+                        }).showToast();
+
+                    });
+
+                },
+
+                error: function () {
+
+                    Toastify({
+
+                        text: "خطایی رخ داده است.",
+
+                        duration: 3000,
+
+                        gravity: "top",
+
+                        position: "right",
+
+                        close: true,
+
+                        backgroundColor: "#ef4444"
+
+                    }).showToast();
+
+                }
+
+            });
+
         });
     </script>
 {% endblock %}
