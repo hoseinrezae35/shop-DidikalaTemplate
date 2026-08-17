@@ -230,23 +230,7 @@
 
                     if (response.success) {
 
-                        Toastify({
-
-                            text: "سبد خرید تأیید شد.",
-
-                            duration: 3000,
-
-                            gravity: "top",
-
-                            position: "right",
-
-                            backgroundColor: "#16a34a",
-
-                            close: true
-
-                        }).showToast();
-
-                        return;
+                        window.location.href = "{% url 'order:checkout' %}";
                     }
 
                     if (response.empty_cart) {

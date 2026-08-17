@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/x-icon" href="{% static 'image/fav.png' %}">
-
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js@1.12.0/src/toastify.min.css">
     <link rel="stylesheet" href="{% static 'css/main.css' %}">
 
     <title>داشبرد کاربر</title>
@@ -27,14 +27,21 @@
         {% endblock %}
     </main>
     <footer class="bg-white h-12 flex items-center justify-end px-5 w-full text-zinc-500 text-xs shrink-0">
-        تمامی حقوق توسط تیم برنامه نویسی امیران محفوظ است.
+        تمامی حقوق توسط تیم برنامه نویسی پالیز وب (حسین رضائی) محفوظ است.
     </footer>
 </div>
 
 </body>
-
+<script src="https://cdn.jsdelivr.net/npm/toastify-js@1.12.0/src/toastify.min.js"></script>
 <script src="{% static 'js/swiper.min.js' %}"></script>
 <script src="{% static 'js/sliders.js' %}"></script>
+<script src="{% static 'js/nouislider.min.js' %}"></script>
 <script src="{% static 'js/main.js' %}"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+{% block extra_js %}
+
+{% endblock %}
+{% include 'messages.html' %}
 
 </html>

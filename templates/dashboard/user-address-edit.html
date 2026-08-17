@@ -1,0 +1,127 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+
+{% block content %}
+    <div>
+        <div >
+            <form method="post" class="space-y-6 px-2 lg:px-8 pb-4 sm:pb-6 pt-4 text-xs md:text-base">
+                {% csrf_token %}
+                <div class="sm:flex gap-x-5">
+                    <div class="sm:w-1/2 mb-2 sm:mb-0 flex flex-col gap-y-1">
+                        <label class="text-zinc-700 flex">
+                            نام
+                            <svg class="fill-red-500" xmlns="http://www.w3.org/2000/svg" width="10"
+                                 height="10"
+                                 fill="#4d4d4d" viewbox="0 0 256 256">
+                                <path d="M210.23,101.57l-72.6,29,51.11,65.71a6,6,0,0,1-9.48,7.36L128,137.77,76.74,203.68a6,6,0,1,1-9.48-7.36l51.11-65.71-72.6-29a6,6,0,1,1,4.46-11.14L122,119.14V40a6,6,0,0,1,12,0v79.14l71.77-28.71a6,6,0,1,1,4.46,11.14Z"></path>
+                            </svg>
+                        </label>
+                        <input class="rounded-2xl rounded-tr-sm text-sm text-zinc-600 w-full bg-[#f0f0f0] px-5 py-3.5 placeholder:text-zinc-400 placeholder:text-xs focus:outline-1 focus:outline-zinc-300"
+                               type="text" placeholder="نام" name="first_name"
+                               value="{{ form.first_name.value|default:'' }}">
+                    </div>
+                    <div class="sm:w-1/2 flex flex-col gap-y-1">
+                        <label class="text-zinc-700 flex">
+                            نام خانوادگی
+                            <svg class="fill-red-500" xmlns="http://www.w3.org/2000/svg" width="10"
+                                 height="10"
+                                 fill="#4d4d4d" viewbox="0 0 256 256">
+                                <path d="M210.23,101.57l-72.6,29,51.11,65.71a6,6,0,0,1-9.48,7.36L128,137.77,76.74,203.68a6,6,0,1,1-9.48-7.36l51.11-65.71-72.6-29a6,6,0,1,1,4.46-11.14L122,119.14V40a6,6,0,0,1,12,0v79.14l71.77-28.71a6,6,0,1,1,4.46,11.14Z"></path>
+                            </svg>
+                        </label>
+                        <input class="rounded-2xl rounded-tr-sm text-sm text-zinc-600 w-full bg-[#f0f0f0] px-5 py-3.5 placeholder:text-zinc-400 placeholder:text-xs focus:outline-1 focus:outline-zinc-300"
+                               type="text" placeholder="نام حانوادگی" name="last_name"
+                               value="{{ form.last_name.value|default:'' }}">
+                    </div>
+                </div>
+                <div class="sm:flex gap-x-5 mt-7">
+                    <div class="sm:w-1/2 flex flex-col gap-y-1">
+                        <label class="text-zinc-700 flex">
+                            استان
+                            <svg class="fill-red-500" xmlns="http://www.w3.org/2000/svg" width="10"
+                                 height="10"
+                                 fill="#4d4d4d" viewbox="0 0 256 256">
+                                <path d="M210.23,101.57l-72.6,29,51.11,65.71a6,6,0,0,1-9.48,7.36L128,137.77,76.74,203.68a6,6,0,1,1-9.48-7.36l51.11-65.71-72.6-29a6,6,0,1,1,4.46-11.14L122,119.14V40a6,6,0,0,1,12,0v79.14l71.77-28.71a6,6,0,1,1,4.46,11.14Z"></path>
+                            </svg>
+                        </label>
+                        <input class="rounded-2xl rounded-tr-sm text-sm text-zinc-600 w-full bg-[#f0f0f0] px-5 py-3.5 placeholder:text-zinc-400 placeholder:text-xs focus:outline-1 focus:outline-zinc-300"
+                               type="text" placeholder="استان" name="state"
+                               value="{{ form.state.value|default:'' }}">
+                    </div>
+                    <div class="sm:w-1/2 flex flex-col gap-y-1">
+                        <label class="text-zinc-700 flex">
+                            شهر
+                            <svg class="fill-red-500" xmlns="http://www.w3.org/2000/svg" width="10"
+                                 height="10"
+                                 fill="#4d4d4d" viewbox="0 0 256 256">
+                                <path d="M210.23,101.57l-72.6,29,51.11,65.71a6,6,0,0,1-9.48,7.36L128,137.77,76.74,203.68a6,6,0,1,1-9.48-7.36l51.11-65.71-72.6-29a6,6,0,1,1,4.46-11.14L122,119.14V40a6,6,0,0,1,12,0v79.14l71.77-28.71a6,6,0,1,1,4.46,11.14Z"></path>
+                            </svg>
+                        </label>
+                        <input class="rounded-2xl rounded-tr-sm text-sm text-zinc-600 w-full bg-[#f0f0f0] px-5 py-3.5 placeholder:text-zinc-400 placeholder:text-xs focus:outline-1 focus:outline-zinc-300"
+                               type="text" placeholder="شهر" name="city"
+                               value="{{ form.city.value|default:'' }}">
+                    </div>
+                </div>
+                <div class="mt-7">
+                    <div class="flex flex-col gap-y-1">
+                        <label class="text-zinc-700 flex">
+                            خیابان و کوچه و شماره پلاک و واحد
+                            <svg class="fill-red-500" xmlns="http://www.w3.org/2000/svg" width="10"
+                                 height="10"
+                                 fill="#4d4d4d" viewbox="0 0 256 256">
+                                <path d="M210.23,101.57l-72.6,29,51.11,65.71a6,6,0,0,1-9.48,7.36L128,137.77,76.74,203.68a6,6,0,1,1-9.48-7.36l51.11-65.71-72.6-29a6,6,0,1,1,4.46-11.14L122,119.14V40a6,6,0,0,1,12,0v79.14l71.77-28.71a6,6,0,1,1,4.46,11.14Z"></path>
+                            </svg>
+                        </label>
+                        <input class="rounded-2xl rounded-tr-sm text-sm text-zinc-600 w-full bg-[#f0f0f0] px-5 py-3.5 placeholder:text-zinc-400 placeholder:text-xs focus:outline-1 focus:outline-zinc-300"
+                               type="text" placeholder="اطلاعات دقیق محل تحویل" name="address"
+                               value="{{ form.address.value|default:'' }}">
+                    </div>
+                </div>
+                <div class="sm:flex gap-x-5 mt-5">
+                    <div class="sm:w-1/2 mb-2 sm:mb-0 flex flex-col gap-y-1">
+                        <label class="text-zinc-700 flex">
+                            تلفن
+                            <svg class="fill-red-500" xmlns="http://www.w3.org/2000/svg" width="10"
+                                 height="10"
+                                 fill="#4d4d4d" viewbox="0 0 256 256">
+                                <path d="M210.23,101.57l-72.6,29,51.11,65.71a6,6,0,0,1-9.48,7.36L128,137.77,76.74,203.68a6,6,0,1,1-9.48-7.36l51.11-65.71-72.6-29a6,6,0,1,1,4.46-11.14L122,119.14V40a6,6,0,0,1,12,0v79.14l71.77-28.71a6,6,0,1,1,4.46,11.14Z"></path>
+                            </svg>
+                        </label>
+                        <input class="rounded-2xl rounded-tr-sm text-sm text-zinc-600 w-full bg-[#f0f0f0] px-5 py-3.5 placeholder:text-zinc-400 placeholder:text-xs focus:outline-1 focus:outline-zinc-300"
+                               type="text" placeholder="تلفن همراه" name="phone_number"
+                               value="{{ form.phone_number.value|default:'' }}">
+                    </div>
+                    <div class="sm:w-1/2 flex flex-col gap-y-1">
+                        <label class="text-zinc-700 flex">
+                            کد پستی
+                            <svg class="fill-red-500" xmlns="http://www.w3.org/2000/svg" width="10"
+                                 height="10"
+                                 fill="#4d4d4d" viewbox="0 0 256 256">
+                                <path d="M210.23,101.57l-72.6,29,51.11,65.71a6,6,0,0,1-9.48,7.36L128,137.77,76.74,203.68a6,6,0,1,1-9.48-7.36l51.11-65.71-72.6-29a6,6,0,1,1,4.46-11.14L122,119.14V40a6,6,0,0,1,12,0v79.14l71.77-28.71a6,6,0,1,1,4.46,11.14Z"></path>
+                            </svg>
+                        </label>
+                        <input class="rounded-2xl rounded-tr-sm text-sm text-zinc-600 w-full bg-[#f0f0f0] px-5 py-3.5 placeholder:text-zinc-400 placeholder:text-xs focus:outline-1 focus:outline-zinc-300"
+                               type="text" placeholder="کد پستی محل تحویل" name="postal_code"
+                               value="{{ form.postal_code.value|default:'' }}">
+                    </div>
+                </div>
+                <div class="mt-5">
+                    <div class="flex flex-col gap-y-1">
+                        <label class="text-zinc-700 flex">
+                            توضیحات اضافه
+                        </label>
+                        <textarea placeholder="نکات مهم درباره تحویل محصول" name="description" cols="30"
+                                  rows="7"
+                                  class="rounded-2xl rounded-tr-sm text-sm text-zinc-600 w-full bg-[#f0f0f0] px-5 py-3.5 placeholder:text-zinc-400 placeholder:text-xs focus:outline-1 focus:outline-zinc-300">
+                                              {{ form.description.value|default:'' }}
+                                    </textarea>
+                    </div>
+                </div>
+                <button type="submit"
+                        class="block bg-primary-500 hover:bg-primary-400 text-white text-center w-8/12 mx-auto mt-10 px-5 py-3 rounded-xl shadow-lg transition-all font-yekanBakhBold">
+                    ویرایش آدرس
+                </button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

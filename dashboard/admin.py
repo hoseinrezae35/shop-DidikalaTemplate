@@ -1,3 +1,9 @@
 from django.contrib import admin
+from .models import UserAddressModel
 
-# Register your models here.
+
+@admin.register(UserAddressModel)
+class UserAddressModelAdmin(admin.ModelAdmin):
+    list_display = ("id", "user", "state", "city", "phone_number")
+
+
