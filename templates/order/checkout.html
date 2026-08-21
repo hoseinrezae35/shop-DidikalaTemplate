@@ -67,11 +67,11 @@
 
                                     <!-- کارت آدرس با طراحی مدرن -->
                                     <div class="relative overflow-hidden rounded-xl border-2 p-5 transition-all duration-300
-                    hover:shadow-lg hover:border-gray-300
-                    peer-checked:border-blue-500
-                    peer-checked:shadow-xl peer-checked:shadow-blue-100
-                    peer-checked:bg-gradient-to-br peer-checked:from-blue-50 peer-checked:to-white
-                    bg-white">
+                                        hover:shadow-lg hover:border-gray-300
+                                        peer-checked:border-blue-500
+                                        peer-checked:shadow-xl peer-checked:shadow-blue-100
+                                        peer-checked:bg-gradient-to-br peer-checked:from-blue-50 peer-checked:to-white
+                                        bg-white">
 
                                         <!-- افکت درخشش هنگام انتخاب -->
                                         <div class="absolute inset-0 opacity-0 peer-checked:opacity-100 transition-opacity duration-500">
@@ -81,9 +81,9 @@
                                         <!-- هدر -->
                                         <div class="relative flex justify-between items-center border-b pb-3 mb-4">
                                             <div class="flex items-center gap-2">
-                    <span class="text-lg font-bold text-gray-800">
-                        {{ address.state }}
-                    </span>
+                                                <span class="text-lg font-bold text-gray-800">
+                                                 {{ address.state }}
+                                                </span>
                                                 <span class="text-sm text-gray-500">•</span>
                                                 <span class="text-sm text-gray-600">{{ address.city }}</span>
                                             </div>
@@ -91,10 +91,10 @@
                                             <!-- دکمه ویرایش با طراحی زیبا -->
                                             <a href="{% url 'dashboard:address-edit' pk=address.pk %}"
                                                class="group relative inline-flex items-center gap-1 text-xs font-medium
-                          bg-gradient-to-r from-blue-500 to-blue-600 text-white
-                          px-4 py-1.5 rounded-full
-                          hover:from-blue-600 hover:to-blue-700
-                          shadow-md hover:shadow-lg transition-all duration-200"
+                                                   bg-gradient-to-r from-blue-500 to-blue-600 text-white
+                                                   px-4 py-1.5 rounded-full
+                                                   hover:from-blue-600 hover:to-blue-700
+                                                   shadow-md hover:shadow-lg transition-all duration-200"
                                                onclick="event.stopPropagation();">
                                                 <svg class="w-3 h-3" fill="none" stroke="currentColor"
                                                      viewBox="0 0 24 24">
@@ -159,30 +159,102 @@
                                         <!-- نشانگر انتخاب (نوار رنگی با انیمیشن) -->
                                         <div class="relative mt-4 h-1 rounded-full bg-gray-200 overflow-hidden">
                                             <div class="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-500
-                            scale-x-0 peer-checked:scale-x-100 transition-transform duration-500 origin-left">
+                                                scale-x-0 peer-checked:scale-x-100 transition-transform duration-500 origin-left">
                                             </div>
                                         </div>
 
                                         <!-- Badge انتخاب شده -->
                                         <div class="absolute top-3 right-3 opacity-0 peer-checked:opacity-100 transition-all duration-300 transform scale-0 peer-checked:scale-100">
-                <span class="inline-flex items-center gap-1 bg-gradient-to-r from-blue-500 to-blue-600 text-white text-xs px-2.5 py-1 rounded-full shadow-lg">
-                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
-                    </svg>
-                    انتخاب شده
-                </span>
+                                            <span class="inline-flex items-center gap-1 bg-gradient-to-r from-blue-500 to-blue-600 text-white text-xs px-2.5 py-1 rounded-full shadow-lg">
+                                                <svg class="w-3 h-3" fill="none" stroke="currentColor"
+                                                     viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                          stroke-width="3" d="M5 13l4 4L19 7"></path>
+                                                </svg>
+                                                انتخاب شده
+                                            </span>
                                         </div>
-
                                     </div>
                                 </label>
                             {% endfor %}
+                            <div class="mb-5 mt-10">
 
+                                <div class="flex gap-x-1 items-center text-zinc-700 border-b pb-2 mb-4">
+                                    نوع ارسال
+                                </div>
+
+                                <ul class="flex flex-col md:flex-row w-full gap-5">
+
+                                    <li class="w-full">
+
+                                        <input
+                                                type="radio"
+                                                id="tipax"
+                                                name="shipping_method"
+                                                value="tipax"
+                                                class="hidden peer"
+                                                required
+                                                checked
+                                        >
+
+                                        <label
+                                                for="tipax"
+                                                class="flex items-center justify-center gap-x-2
+                                                    w-full p-3 text-gray-600 bg-white
+                                                    border border-gray-200 rounded-lg
+                                                    cursor-pointer
+                                                    peer-checked:border-primary-400
+                                                    peer-checked:text-primary-400
+                                                    peer-checked:shadow-md
+                                                    hover:bg-gray-100"
+                                        >
+                                            <div class="text-center">
+                                                <span class="text-sm">
+                                                    ارسال با تیپاکس :
+                                                </span>
+
+                                                <span class="text-sm">
+                                                    هزینه ارسال به عهده مشتری
+                                                </span>
+                                            </div>
+                                        </label>
+                                    </li>
+                                    <li class="w-full">
+                                        <input
+                                                type="radio"
+                                                id="pickup"
+                                                name="shipping_method"
+                                                value="pickup"
+                                                class="hidden peer"
+                                                required
+                                        >
+                                        <label
+                                                for="pickup"
+                                                class="flex items-center justify-center gap-x-2
+                                                     w-full p-3 text-gray-600 bg-white
+                                                    border border-gray-200 rounded-lg
+                                                    cursor-pointer
+                                                    peer-checked:border-primary-400
+                                                    peer-checked:text-primary-400
+                                                    peer-checked:shadow-md
+                                                    hover:bg-gray-100"
+                                        >
+                                            <div class="text-center">
+                                                <span class="text-sm">
+                                                    دریافت حضوری :
+                                                </span>
+
+                                                <span class="text-sm">
+                                                    بدون هزینه ارسال
+                                                </span>
+                                            </div>
+                                        </label>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
-
                     </form>
-
                 {% else %}
-
                     <div class="flex flex-col sm:flex-row items-center justify-center gap-3
                             border border-zinc-200 rounded-xl p-6 text-center">
 
@@ -257,13 +329,13 @@
                 <div class="flex justify-between items-center text-zinc-600 mt-5">
 
                     <div class="text-sm">
-                        جمع مبلغ کل
+                        جمع مبلغ کالا
                     </div>
 
                     <div class="flex items-center">
 
                         <div class="md:text-xl">
-                            2,100,000
+                            2,000,000
                         </div>
 
                         <div class="-rotate-90 text-[0.6rem]">
@@ -278,7 +350,7 @@
                 <div class="flex justify-between items-center text-zinc-600 mt-5">
 
                     <div class="text-sm">
-                        هزینه ارسال
+                        مالیات ارزش افزوده
                     </div>
 
                     <div class="flex items-center">
