@@ -21,6 +21,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # my_app
+    'ckeditor',
     'home.apps.HomeConfig',
     'accounts.apps.AccountsConfig',
     'shop.apps.ShopConfig',
@@ -113,7 +114,7 @@ STATICFILES_DIRS = [
     BASE_DIR / 'static'
 ]
 
-AUTH_USER_MODEL = 'accounts.user'
+AUTH_USER_MODEL = 'accounts.User'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 

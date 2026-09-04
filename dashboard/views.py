@@ -1,19 +1,24 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect, get_object_or_404
-from django.views.generic import TemplateView, ListView, View, UpdateView
 from django.urls import reverse_lazy
+from django.views.generic import ListView, View, UpdateView
+
+from accounts.models import Profile
+from order.models import Order
 from .forms import UserAddressForm, UserProfileForm
 from .models import UserAddressModel
-from accounts.models import Profile
 
 
-class DashboardView(LoginRequiredMixin, TemplateView):
+class DashboardView(LoginRequiredMixin, ListView):
+    model = Order
     template_name = "dashboard/include/index.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["user"] = self.request.user
+        context["order_list"] = Order.objects.filter(user=self.request.user)
+         
 
         return context
 
@@ -67,7 +72,6 @@ class AddressListView(LoginRequiredMixin, ListView):
 
 
 class AddressUpdateView(LoginRequiredMixin, UpdateView):
-
     model = UserAddressModel
     form_class = UserAddressForm
 
@@ -85,7 +89,6 @@ class AddressUpdateView(LoginRequiredMixin, UpdateView):
         )
 
     def form_valid(self, form):
-
         response = super().form_valid(form)
 
         messages.success(
@@ -120,7 +123,6 @@ class AddressDeleteView(LoginRequiredMixin, View):
 
 
 class UserProfileUpdateView(LoginRequiredMixin, UpdateView):
-
     model = Profile
     form_class = UserProfileForm
 
@@ -136,7 +138,6 @@ class UserProfileUpdateView(LoginRequiredMixin, UpdateView):
         return self.request.user.user_profile
 
     def form_valid(self, form):
-
         response = super().form_valid(form)
 
         messages.success(
@@ -147,7 +148,6 @@ class UserProfileUpdateView(LoginRequiredMixin, UpdateView):
         return response
 
     def form_invalid(self, form):
-
         messages.error(
             self.request,
             "اطلاعات وارد شده صحیح نیست. لطفاً فرم را بررسی کنید."

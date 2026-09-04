@@ -77,67 +77,30 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr class="even:bg-zinc-100">
-                    <td class="p-4">
-                        <p class="block text-sm">
-                            #234561
-                        </p>
-                    </td>
-                    <td class="p-4">
-                        <p class="block text-sm">
-                            1404/01/23
-                        </p>
-                    </td>
-                    <td class="p-4">
-                        <p class="block text-sm">
-                            175,000 تومان
-                        </p>
-                    </td>
-                    <td class="p-4">
-                        <a href="#" class="block text-xs">مشاهده</a>
-                    </td>
-                </tr>
-                <tr class="even:bg-zinc-100">
-                    <td class="p-4">
-                        <p class="block text-sm">
-                            #234561
-                        </p>
-                    </td>
-                    <td class="p-4">
-                        <p class="block text-sm">
-                            1404/01/23
-                        </p>
-                    </td>
-                    <td class="p-4">
-                        <p class="block text-sm">
-                            175,000 تومان
-                        </p>
-                    </td>
-                    <td class="p-4">
-                        <a href="#" class="block text-xs">مشاهده</a>
-                    </td>
-                </tr>
-                <tr class="even:bg-zinc-100">
-                    <td class="p-4">
-                        <p class="block text-sm">
-                            #234561
-                        </p>
-                    </td>
-                    <td class="p-4">
-                        <p class="block text-sm">
-                            1404/01/23
-                        </p>
-                    </td>
-                    <td class="p-4">
-                        <p class="block text-sm">
-                            175,000 تومان
-                        </p>
-                    </td>
-                    <td class="p-4">
-                        <a href="#" class="block text-xs">مشاهده</a>
-                    </td>
-                </tr>
-                </tbody>
+                {% for order in order_list %}
+                    <tr class="even:bg-zinc-100">
+                        <td class="p-4">
+                            <p class="block text-sm">
+                                #{{ order.id }}
+                            </p>
+                        </td>
+                        <td class="p-4">
+                            <p class="block text-sm">
+                                {{ order.created_at }}
+                            </p>
+                        </td>
+                        <td class="p-4">
+                            <p class="block text-sm">
+                                {{ order.calculate_final_price }} تومان
+                            </p>
+                        </td>
+                        <td class="p-4">
+                            <a href="#" class="block text-xs">مشاهده</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+
+
             </table>
         </div>
     </div>
